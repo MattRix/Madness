@@ -10,10 +10,18 @@ public class MPlayer
 	public string name;
 	public MColor color;
 	
-	public int maxFramesTillWad = 50;
+	public float angle;
+	public MTower tower;
+	
+	public int maxWads = 50;
+		
+	public int maxFramesTillWad = 120;
 	public int framesTillWad;
 	
+	public float nextWadCreationAngle = 0.0f;
+	
 	public List<MWad> wads = new List<MWad>();
+	
 		
 	public MPlayer(int index, bool isHuman, string name, MColor color)
 	{

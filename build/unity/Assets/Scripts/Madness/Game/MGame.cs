@@ -15,7 +15,8 @@ public class MGame : FMultiTouchableInterface
 	private MPlayer _human;
 	private List<MTower> _towers = new List<MTower>();
 	
-	private List<MWad> _wads = new List<MWad>();
+	private int _wadCount = 0;
+	private MWad[] _wads;
 	
 	public int frameCount = 0;
 	
@@ -29,6 +30,8 @@ public class MGame : FMultiTouchableInterface
 		_players.Add(new MPlayer(2, false,"BLUE",MColor.Blue));
 		
 		_human = _players[0];
+		
+		_wads = new MWad[_players.Count * (_human.maxWads + 20)];
 		
 		CreateTowers();
 		
@@ -53,6 +56,10 @@ public class MGame : FMultiTouchableInterface
 		foreach(MPlayer player in _players)
 		{
 			MTower tower = new MTower(player);
+			
+			player.angle = angle;
+			player.tower = tower;
+			
 			tower.x = Mathf.Sin (angle*RXMath.DTOR) * MConfig.TOWER_CREATION_RADIUS;
 			tower.y = Mathf.Cos (angle*RXMath.DTOR) * MConfig.TOWER_CREATION_RADIUS;
 			
@@ -79,6 +86,12 @@ public class MGame : FMultiTouchableInterface
 			}
 		}
 		
+		for(int w = 0; w<_wadCount; w++)
+		{
+			MWad wad = _wads[w];
+		}
+		
+		
 		frameCount++;
 	}
 	
@@ -92,19 +105,33 @@ public class MGame : FMultiTouchableInterface
 	
 	public void CreateWad(MPlayer player)
 	{
+		if(player.wads.Count >= player.maxWads) return; //TODO: Show a "max wads limit reached!" indicator on screen
+		
 		MWad wad = GetNewWad();
 		wad.Start(player);
 		_wadContainer.AddChild(wad);
-		_wads.Add(wad); 
+		if(_wads.Length <= _wadCount)
+		{
+			Array.Resize(ref _wads,_wadCount+20);	
+		}
+		_wads[_wadCount++] = wad; 
 		player.wads.Add(wad);
+		
+		float creationAngle = player.angle + player.nextWadCreationAngle;
+		
+		wad.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (player.tower.radius+wad.radius); 
+		wad.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (player.tower.radius+wad.radius); 
+		
+		player.nextWadCreationAngle = (player.nextWadCreationAngle + 30.0f)%360.0f;
 	}
 	
-	public void RemoveWad(MWad wad)
+	public void RemoveWad(MWad wadToRemove)
 	{
-		wad.Destroy();
-		_wads.Remove(wad);
-		wad.player.wads.Remove(wad); 
-		MWad.pool.Add (wad);
+		wadToRemove.Destroy();
+		_wads.RemoveItem(wadToRemove, ref _wadCount);
+		
+		wadToRemove.player.wads.Remove(wadToRemove); 
+		MWad.pool.Add (wadToRemove);
 	}
 	
 	public void HandleMultiTouch(FTouch[] touches)

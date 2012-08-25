@@ -6,7 +6,11 @@ using System.Collections.Generic;
 public class MWad : FContainer
 {
 	public static List<MWad> pool = new List<MWad>();
-
+	
+	private static FAtlasElement[] _walkElements;
+	private static FAtlasElement[] _attackElements;
+	private static FAtlasElement[] _walkAndAttackElements;
+	
 	public float radius = 20.0f;
 	
 	public MPlayer player;
@@ -15,18 +19,38 @@ public class MWad : FContainer
 	
 	private bool _isEnabled = false;
 	
+	public Vector2 velocity = new Vector2(0,0);
 	
+	public static void Init()
+	{
+		_walkElements = new FAtlasElement[10];
+		_attackElements = new FAtlasElement[10];
+		_walkAndAttackElements = new FAtlasElement[_walkElements.Length + _attackElements.Length];
 		
+		int allIndex = 0;
+		
+		for(int f = 0; f<_walkElements.Length; f++)
+		{
+			_walkAndAttackElements[allIndex++] = _walkElements[f] = Futile.atlasManager.GetElementWithName("Wad_walking_"+f+".png");	
+		}
+		
+		for(int f = 0; f<_attackElements.Length; f++)
+		{
+			_walkAndAttackElements[allIndex++] = _attackElements[f] = Futile.atlasManager.GetElementWithName("Wad_attacking_"+f+".png");	
+		}
+	} 
+	
 	public MWad()
 	{
-		AddChild(_sprite = new FSprite("Tower.png"));
+		AddChild(_sprite = new FSprite(_walkElements[0].name));
+		//_sprite.shader = FShader.AdditiveColor;
 	}
 	
 	public void Start(MPlayer player)
 	{
 		this.player = player;
 		
-		_sprite.color = player.color.color;
+		_sprite.color = player.color.wadColor;
 		
 		this.isEnabled = true;
 	}

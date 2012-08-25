@@ -34,13 +34,13 @@
 },
 "Tower.png":
 {
-	"frame": {"x":3,"y":371,"w":70,"h":69},
+	"frame": {"x":3,"y":371,"w":68,"h":68},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":1,"w":70,"h":69},
+	"spriteSourceSize": {"x":1,"y":1,"w":68,"h":68},
 	"sourceSize": {"w":70,"h":70}
 },
-"Wad_Attacking_0.png":
+"Wad_attacking_0.png":
 {
 	"frame": {"x":128,"y":449,"w":37,"h":35},
 	"rotated": false,
@@ -48,7 +48,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_1.png":
+"Wad_attacking_1.png":
 {
 	"frame": {"x":168,"y":273,"w":37,"h":35},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_2.png":
+"Wad_attacking_2.png":
 {
 	"frame": {"x":167,"y":312,"w":37,"h":35},
 	"rotated": false,
@@ -64,15 +64,15 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_3.png":
+"Wad_attacking_3.png":
 {
-	"frame": {"x":160,"y":371,"w":37,"h":35},
+	"frame": {"x":158,"y":371,"w":37,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_4.png":
+"Wad_attacking_4.png":
 {
 	"frame": {"x":128,"y":410,"w":37,"h":35},
 	"rotated": false,
@@ -80,7 +80,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_5.png":
+"Wad_attacking_5.png":
 {
 	"frame": {"x":87,"y":449,"w":37,"h":35},
 	"rotated": false,
@@ -88,7 +88,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_6.png":
+"Wad_attacking_6.png":
 {
 	"frame": {"x":127,"y":273,"w":37,"h":35},
 	"rotated": false,
@@ -96,7 +96,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_7.png":
+"Wad_attacking_7.png":
 {
 	"frame": {"x":126,"y":312,"w":37,"h":35},
 	"rotated": false,
@@ -104,15 +104,15 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_8.png":
+"Wad_attacking_8.png":
 {
-	"frame": {"x":119,"y":371,"w":37,"h":35},
+	"frame": {"x":117,"y":371,"w":37,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Attacking_9.png":
+"Wad_attacking_9.png":
 {
 	"frame": {"x":87,"y":410,"w":37,"h":35},
 	"rotated": false,
@@ -120,7 +120,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_0.png":
+"Wad_walking_0.png":
 {
 	"frame": {"x":128,"y":449,"w":37,"h":35},
 	"rotated": false,
@@ -128,7 +128,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_1.png":
+"Wad_walking_1.png":
 {
 	"frame": {"x":86,"y":273,"w":37,"h":35},
 	"rotated": false,
@@ -136,7 +136,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_2.png":
+"Wad_walking_2.png":
 {
 	"frame": {"x":85,"y":312,"w":37,"h":35},
 	"rotated": false,
@@ -144,7 +144,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_3.png":
+"Wad_walking_3.png":
 {
 	"frame": {"x":45,"y":273,"w":37,"h":35},
 	"rotated": false,
@@ -152,7 +152,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_4.png":
+"Wad_walking_4.png":
 {
 	"frame": {"x":44,"y":312,"w":37,"h":35},
 	"rotated": false,
@@ -160,7 +160,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_5.png":
+"Wad_walking_5.png":
 {
 	"frame": {"x":3,"y":312,"w":37,"h":35},
 	"rotated": false,
@@ -168,7 +168,7 @@
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_6.png":
+"Wad_walking_6.png":
 {
 	"frame": {"x":3,"y":273,"w":38,"h":35},
 	"rotated": false,
@@ -176,25 +176,25 @@
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_7.png":
+"Wad_walking_7.png":
 {
-	"frame": {"x":77,"y":371,"w":38,"h":35},
+	"frame": {"x":75,"y":371,"w":38,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_8.png":
+"Wad_walking_8.png":
 {
-	"frame": {"x":45,"y":444,"w":38,"h":35},
+	"frame": {"x":45,"y":443,"w":38,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
 	"sourceSize": {"w":40,"h":40}
 },
-"Wad_Walking_9.png":
+"Wad_walking_9.png":
 {
-	"frame": {"x":3,"y":444,"w":38,"h":35},
+	"frame": {"x":3,"y":443,"w":38,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
@@ -207,6 +207,6 @@
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c54dc27ea15833c17bab27812f5b45ed$"
+	"smartupdate": "$TexturePacker:SmartUpdate:45d4587b9b4055ab7aa55a713a294210$"
 }
 }

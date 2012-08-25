@@ -41,6 +41,8 @@ public class MMain : MonoBehaviour
 		
 		Futile.atlasManager.LoadFont("Cubano","Cubano"+Futile.resourceSuffix+".png", "Atlases/Cubano"+Futile.resourceSuffix);
 		
+		MWad.Init(); //sets up the MWad animation elements
+		
 		GoToPage(MPageType.TitlePage);
 	}
 

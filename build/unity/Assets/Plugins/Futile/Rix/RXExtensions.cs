@@ -81,6 +81,29 @@ public static class GoKitExtensions
 	}
 }
 
+public static class ArrayExtensions
+{
+	public static void RemoveItem<T>(this T[] items, T itemToRemove, ref int count) where T : class
+	{
+		//this thing basically just removes it from the array
+		bool wasFound = false;
+		for(int i = 0; i<count; i++)
+		{
+			if(wasFound)
+			{
+				T item = items[i];
+				if(item == null) break;
+				items[i-1] = item;
+			}
+			else if(items[i] == itemToRemove)
+			{
+				wasFound = true;
+				count--;
+			}
+		}	
+	}
+}
+
 public static class ListExtensions
 {
 	public static T Unshift<T>(this List<T> list)
