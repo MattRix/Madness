@@ -1,321 +1,212 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-    <dict>
-        <key>frames</key>
-        <dict>
-            <key>Cubano_Scale2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,3},{502,164}}</string>
-                <key>offset</key>
-                <string>{-3,172}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{2,2},{502,164}}</string>
-                <key>sourceSize</key>
-                <string>{512,512}</string>
-            </dict>
-            <key>TitleLogo.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,171},{372,98}}</string>
-                <key>offset</key>
-                <string>{-0.5,-9}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,20},{372,98}}</string>
-                <key>sourceSize</key>
-                <string>{375,120}</string>
-            </dict>
-            <key>Tower.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{379,171},{70,69}}</string>
-                <key>offset</key>
-                <string>{0,-0.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,1},{70,69}}</string>
-                <key>sourceSize</key>
-                <string>{70,70}</string>
-            </dict>
-            <key>Wad_Attacking_0.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{85,405},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{85,366},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{85,327},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_3.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{85,288},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_4.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{44,444},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_5.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{44,405},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_6.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{44,366},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_7.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{44,327},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_8.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{44,288},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Attacking_9.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,444},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_0.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{85,405},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,405},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_2.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,366},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_3.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,327},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_4.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,288},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_5.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{463,249},{37,35}}</string>
-                <key>offset</key>
-                <string>{-0.5,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{1,1},{37,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_6.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{421,249},{38,35}}</string>
-                <key>offset</key>
-                <string>{-1,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,1},{38,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_7.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{379,244},{38,35}}</string>
-                <key>offset</key>
-                <string>{-1,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,1},{38,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_8.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{453,210},{38,35}}</string>
-                <key>offset</key>
-                <string>{-1,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,1},{38,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-            <key>Wad_Walking_9.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{453,171},{38,35}}</string>
-                <key>offset</key>
-                <string>{-1,1.5}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,1},{38,35}}</string>
-                <key>sourceSize</key>
-                <string>{40,40}</string>
-            </dict>
-        </dict>
-        <key>metadata</key>
-        <dict>
-            <key>format</key>
-            <integer>2</integer>
-            <key>realTextureFileName</key>
-            <string>Game_Scale2.png</string>
-            <key>size</key>
-            <string>{512,512}</string>
-            <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:95b4f9ecf45845bf1b2063743ac1f6be$</string>
-            <key>textureFileName</key>
-            <string>Game_Scale2.png</string>
-        </dict>
-    </dict>
-</plist>
+{"frames": {
+
+"CircleButtonBG_normal.png":
+{
+	"frame": {"x":379,"y":271,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":96,"h":96},
+	"sourceSize": {"w":100,"h":100}
+},
+"CircleButtonBG_over.png":
+{
+	"frame": {"x":379,"y":171,"w":96,"h":96},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":96,"h":96},
+	"sourceSize": {"w":100,"h":100}
+},
+"Cubano_Scale2.png":
+{
+	"frame": {"x":3,"y":3,"w":502,"h":164},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":2,"w":502,"h":164},
+	"sourceSize": {"w":512,"h":512}
+},
+"TitleLogo.png":
+{
+	"frame": {"x":3,"y":171,"w":372,"h":98},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":20,"w":372,"h":98},
+	"sourceSize": {"w":375,"h":120}
+},
+"Tower.png":
+{
+	"frame": {"x":3,"y":371,"w":70,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":70,"h":69},
+	"sourceSize": {"w":70,"h":70}
+},
+"Wad_Attacking_0.png":
+{
+	"frame": {"x":128,"y":449,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_1.png":
+{
+	"frame": {"x":168,"y":273,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_2.png":
+{
+	"frame": {"x":167,"y":312,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_3.png":
+{
+	"frame": {"x":160,"y":371,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_4.png":
+{
+	"frame": {"x":128,"y":410,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_5.png":
+{
+	"frame": {"x":87,"y":449,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_6.png":
+{
+	"frame": {"x":127,"y":273,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_7.png":
+{
+	"frame": {"x":126,"y":312,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_8.png":
+{
+	"frame": {"x":119,"y":371,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Attacking_9.png":
+{
+	"frame": {"x":87,"y":410,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_0.png":
+{
+	"frame": {"x":128,"y":449,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_1.png":
+{
+	"frame": {"x":86,"y":273,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_2.png":
+{
+	"frame": {"x":85,"y":312,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_3.png":
+{
+	"frame": {"x":45,"y":273,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_4.png":
+{
+	"frame": {"x":44,"y":312,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_5.png":
+{
+	"frame": {"x":3,"y":312,"w":37,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_6.png":
+{
+	"frame": {"x":3,"y":273,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_7.png":
+{
+	"frame": {"x":77,"y":371,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_8.png":
+{
+	"frame": {"x":45,"y":444,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
+	"sourceSize": {"w":40,"h":40}
+},
+"Wad_Walking_9.png":
+{
+	"frame": {"x":3,"y":444,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":35},
+	"sourceSize": {"w":40,"h":40}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "Game_Scale2.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c54dc27ea15833c17bab27812f5b45ed$"
+}
+}

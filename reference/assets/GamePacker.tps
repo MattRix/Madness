@@ -20,7 +20,7 @@
         <key>allowFreeSize</key>
         <false/>
         <key>dataFormat</key>
-        <string>cocos2d</string>
+        <string>unity</string>
         <key>textureFileName</key>
         <filename>../../build/unity/Assets/Resources/Atlases/Game_Scale2.png</filename>
         <key>flipPVR</key>

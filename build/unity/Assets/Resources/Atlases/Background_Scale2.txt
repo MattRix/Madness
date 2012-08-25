@@ -1,35 +1,20 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-    <dict>
-        <key>frames</key>
-        <dict>
-            <key>Background.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{3,3},{1024,768}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{1024,768}}</string>
-                <key>sourceSize</key>
-                <string>{1024,768}</string>
-            </dict>
-        </dict>
-        <key>metadata</key>
-        <dict>
-            <key>format</key>
-            <integer>2</integer>
-            <key>realTextureFileName</key>
-            <string>Background_Scale2.png</string>
-            <key>size</key>
-            <string>{2048,1024}</string>
-            <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:6e62dc8fc48c7a948d65608e6b417acd$</string>
-            <key>textureFileName</key>
-            <string>Background_Scale2.png</string>
-        </dict>
-    </dict>
-</plist>
+{"frames": {
+
+"Background.png":
+{
+	"frame": {"x":3,"y":3,"w":1024,"h":768},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1024,"h":768},
+	"sourceSize": {"w":1024,"h":768}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "Background_Scale2.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":1024},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e615f4b5096b28e731ccecd7488fdd1d$"
+}
+}

@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class BPage : FContainer
+public class MPage : FContainer
 {
-	public BPage()
+	public MPage()
 	{
 		
 	}
