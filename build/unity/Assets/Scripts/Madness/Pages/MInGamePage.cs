@@ -7,6 +7,7 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 {
 	
 	private FSprite _background;
+	private FButton _backButton;
 	
 	public MInGamePage()
 	{
@@ -31,6 +32,21 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 	{
 		_background = new FSprite("Background.png");
 		AddChild(_background);
+		
+		_backButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "ClickSound");
+		_backButton.AddLabel("Cubano","BACK!",Color.white);
+		AddChild (_backButton);
+		
+		_backButton.x = -Futile.screen.halfWidth+50;
+		_backButton.y = Futile.screen.halfHeight-50;
+		
+		_backButton.SignalRelease += HandleStartButtonRelease;
+		
+	}
+	
+	private void HandleStartButtonRelease (FButton button)
+	{
+		MMain.instance.GoToPage(MPageType.TitlePage);
 	}
 	
 
