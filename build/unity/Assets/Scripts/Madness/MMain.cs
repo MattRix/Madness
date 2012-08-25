@@ -29,8 +29,8 @@ public class MMain : MonoBehaviour
 		
 		FutileParams fparams = new FutileParams(true,true,false,false);
 		
-		fparams.AddResolutionLevel(512.0f,	1.0f,	2.0f,	"_Scale2"); //Unity Editor
-		fparams.AddResolutionLevel(1024.0f,	2.0f,	2.0f,	"_Scale2"); //iPhone retina
+		fparams.AddResolutionLevel(512.0f,	0.5f,	1.0f,	"_Scale2"); //Unity Editor
+		fparams.AddResolutionLevel(1024.0f,	1.0f,	1.0f,	"_Scale2"); //iPhone retina
 		
 		fparams.origin = new Vector2(0.5f,0.5f);
 		

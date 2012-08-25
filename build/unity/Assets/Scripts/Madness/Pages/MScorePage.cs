@@ -34,8 +34,8 @@ public class MScorePage : MPage
 		_againButton.AddLabel("Cubano","AGAIN!",Color.white);
 		AddChild (_againButton);
 		
-		_againButton.x = -Futile.screen.halfWidth+50;
-		_againButton.y = Futile.screen.halfHeight-50;
+		_againButton.x = -Futile.screen.halfWidth+100;
+		_againButton.y = Futile.screen.halfHeight-100;
 		
 		_againButton.SignalRelease += HandleStartButtonRelease;
 		

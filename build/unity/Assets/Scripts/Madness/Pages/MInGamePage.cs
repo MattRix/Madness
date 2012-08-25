@@ -9,6 +9,8 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 	private FSprite _background;
 	private FButton _backButton;
 	
+	private MGame _game;
+	
 	public MInGamePage()
 	{
 		
@@ -25,6 +27,7 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 	{
 		Futile.touchManager.RemoveMultiTouchTarget(this);
 		Futile.instance.SignalUpdate -= HandleUpdate;
+		_game.Destroy();
 		base.HandleRemovedFromStage();	
 	}
 	
@@ -37,19 +40,18 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 		_backButton.AddLabel("Cubano","BACK!",Color.white);
 		AddChild (_backButton);
 		
-		_backButton.x = -Futile.screen.halfWidth+50;
-		_backButton.y = Futile.screen.halfHeight-50;
+		_backButton.x = -Futile.screen.halfWidth+100;
+		_backButton.y = Futile.screen.halfHeight-100;
 		
 		_backButton.SignalRelease += HandleStartButtonRelease;
 		
+		_game = new MGame(this);
 	}
 	
 	private void HandleStartButtonRelease (FButton button)
 	{
 		MMain.instance.GoToPage(MPageType.TitlePage);
 	}
-	
-
 
 	protected void HandleUpdate ()
 	{
