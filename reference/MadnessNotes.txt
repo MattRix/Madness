@@ -1,0 +1,7 @@
+
+
+Tower: 70,70
+Circle Button: 100,100
+TitleLogo: 375, 120
+Wad: 40x40 (scale to 25%) - walk frames: 1-10(10 frames), attack frames:19-28(10 frames)
+CubanoFontAtlas: 512x512
