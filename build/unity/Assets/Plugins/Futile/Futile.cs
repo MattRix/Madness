@@ -52,6 +52,8 @@ public class Futile : MonoBehaviour
 	public event Action SignalUpdate;
 	public event Action SignalLateUpdate;
 	
+	public bool shouldRunGCNextUpdate = false;
+	
 	
 	
 	
@@ -233,6 +235,12 @@ public class Futile : MonoBehaviour
 		}
 		
 		if(SignalLateUpdate != null) SignalLateUpdate();
+		
+		if(shouldRunGCNextUpdate)
+		{
+			shouldRunGCNextUpdate = false;
+			GC.Collect();	
+		}
 	}	
 	
 	private void OnApplicationQuit()

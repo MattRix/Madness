@@ -5,13 +5,17 @@ using System.Collections.Generic;
 
 public class MTower : FContainer
 {
-	private MPlayer _player;
+	public float radius = 35.0f;
+	
+	public MPlayer player;
+	
 	private FSprite _sprite;
 		
 	public MTower(MPlayer player)
 	{
-		_player = player;
+		this.player = player;
+		
 		AddChild(_sprite = new FSprite("Tower.png"));
-		_sprite.color = _player.color.color;
+		_sprite.color = player.color.color;
 	}
 }

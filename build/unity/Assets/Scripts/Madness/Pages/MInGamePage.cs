@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class MInGamePage : MPage, FMultiTouchableInterface
+public class MInGamePage : MPage
 {
 	
 	private FSprite _background;
@@ -18,15 +18,12 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 	
 	override public void HandleAddedToStage()
 	{
-		Futile.touchManager.AddMultiTouchTarget(this);
-		Futile.instance.SignalUpdate += HandleUpdate;
 		base.HandleAddedToStage();	
 	}
 	
 	override public void HandleRemovedFromStage()
 	{
-		Futile.touchManager.RemoveMultiTouchTarget(this);
-		Futile.instance.SignalUpdate -= HandleUpdate;
+		
 		_game.Destroy();
 		base.HandleRemovedFromStage();	
 	}
@@ -52,22 +49,6 @@ public class MInGamePage : MPage, FMultiTouchableInterface
 	{
 		MMain.instance.GoToPage(MPageType.TitlePage);
 	}
-
-	protected void HandleUpdate ()
-	{
-	}
-	
-	public void HandleMultiTouch(FTouch[] touches)
-	{
-		foreach(FTouch touch in touches)
-		{
-			if(touch.phase == TouchPhase.Began)
-			{
-				
-			}
-		}
-	}
-	
 
 }
 

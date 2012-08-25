@@ -83,6 +83,20 @@ public static class GoKitExtensions
 
 public static class ListExtensions
 {
+	public static T Unshift<T>(this List<T> list)
+	{
+		T thing = list[0];
+		list.RemoveAt(0);
+		return thing;
+	}
+	
+	public static T Pop<T>(this List<T> list)
+	{
+		T thing = list[list.Count-1];
+		list.RemoveAt(list.Count-1);
+		return thing;
+	}
+	
 	public static T GetLastObject<T>(this List<T> list)
 	{
 		return list[list.Count-1];
