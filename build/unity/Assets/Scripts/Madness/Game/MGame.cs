@@ -109,15 +109,17 @@ public class MGame : FMultiTouchableInterface
 			float y = beast.y;
 			Vector2 velocity = beast.velocity;
 			
+			float deltaRotation = 0.0f;
+			
 			for(int c = 0; c<_beastCount; c++)
 			{
 				MBeast otherBeast = _beasts[c];
 				if(otherBeast == beast) continue;
 				
-				float dx = Math.Abs(otherBeast.x - x);
-				if(dx > attackRadius) continue;
-				float dy = Math.Abs(otherBeast.y - y);
-				if(dy > attackRadius) continue;
+				float dx = otherBeast.x - x;
+				if(dx > attackRadius || dx < -attackRadius) continue;
+				float dy = otherBeast.y - y;
+				if(dy > attackRadius || dy < -attackRadius) continue;
 				
 				int distance = preCalcSQRTs[(int)(dx*dx + dy*dy)];
 				
@@ -128,23 +130,39 @@ public class MGame : FMultiTouchableInterface
 						if(beast.player != otherBeast.player)
 						{
 							//attack enemy
-						}
+							
+							//face the enemy you're attacking!
+							float faceEnemyRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
+							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.05f;
+						} 
 						
-						//push away from enemy
-						tempVector.x = 0.0001f + x-otherBeast.x;
-						tempVector.y = y-otherBeast.y;
+						//push away from other beast
+						tempVector.x = 0.0001f + -dx;
+						tempVector.y = -dy;
 						tempVector.Normalize();
-						velocity += tempVector;	
+						velocity += tempVector;	//push away from enemy or other beast
+					} 
+					else if(distance < nearbyRadius + 4.0f) //4 pixel fudge area
+					{
+						if(beast.player != otherBeast.player)
+						{
+							//attack enemy
+							
+							//face the enemy you're attacking!
+							float faceEnemyRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
+							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.05f;
+			
+						}
 					}
 					else 
 					{
 						//move toward enemy!
 						if(beast.player != otherBeast.player)
 						{
-							tempVector.x = 0.0001f + x-otherBeast.x;
-							tempVector.y = y-otherBeast.y;
+							tempVector.x = 0.0001f + -dx;
+							tempVector.y = -dy;
 							tempVector.Normalize();
-							velocity -= tempVector;	
+							velocity -= tempVector * 0.1f; //push towards enemy
 						}
 					}
 				}
@@ -152,10 +170,18 @@ public class MGame : FMultiTouchableInterface
 			
 			if(beast.hasTarget)
 			{
-				tempVector.x = beast.target.x - beast.x;
-				tempVector.y = beast.target.y - beast.y;
-				tempVector.Normalize();
-				velocity += tempVector * beast.speed;	
+				float dx = beast.target.x - x;
+				
+				float dy = beast.target.y - y;
+				
+				float distanceToTarget = Mathf.Sqrt (dx*dx + dy*dy);
+				if(distanceToTarget > 50.0f)
+				{
+					tempVector.x = beast.target.x - beast.x;
+					tempVector.y = beast.target.y - beast.y;
+					tempVector.Normalize();
+					velocity += tempVector * beast.speed * 0.1f; //push towards target
+				}
 			}
 			
 			
@@ -174,7 +200,7 @@ public class MGame : FMultiTouchableInterface
 					tempVector.x = x-tower.x;
 					tempVector.y = y-tower.y;
 					tempVector.Normalize();
-					velocity += tempVector;	
+					velocity += tempVector;	//push away from tower
 				}
 			}
 			
@@ -185,7 +211,7 @@ public class MGame : FMultiTouchableInterface
 				tempVector.x = x;
 				tempVector.y = y;
 				tempVector.Normalize();
-				velocity -= tempVector * 2.0f;	
+				velocity -= tempVector * 2.0f; //push away from wall
 			}
 			
 			
@@ -199,11 +225,17 @@ public class MGame : FMultiTouchableInterface
 			//ATTACK CLOSE ENEMY
 			//APPLY VELOCITY
 			
-			beast.x += velocity.x;
-			beast.y += velocity.y;
+			beast.x += velocity.x * 0.5f;
+			beast.y += velocity.y * 0.5f;
 			
-			velocity.x *= 0.1f;
-			velocity.y *= 0.1f;
+			float goalRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
+			deltaRotation += RXMath.getDegreeDelta(beast.rotation,goalRotation) * 0.02f;
+			
+			beast.rotation += Math.Max(-3.0f, Math.Min (3.0f, deltaRotation*0.9f));
+			 
+			
+			velocity.x *= 0.6f;
+			velocity.y *= 0.6f;
 			
 			beast.velocity = velocity;
 		}

@@ -3,13 +3,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+public class MBeastElementSet
+{
+	public FAtlasElement[] walkElements;
+	public FAtlasElement[] attackElements;
+	public FAtlasElement[] walkAndAttackElements;
+}
+
+public class MBeastType
+{
+	public static MBeastType[] beastTypes = new MBeastType[3];
+	
+	public static MBeastType A = new MBeastType(0,"A");
+	public static MBeastType B = new MBeastType(1,"B");
+	public static MBeastType C = new MBeastType(2,"C");
+	
+	public int index;
+	public string name;
+	
+	public MBeastType(int index, string name)
+	{
+		this.index = index;
+		this.name = name;
+	}
+}
+
 public class MBeast : FContainer
 {
 	public static List<MBeast> pool = new List<MBeast>();
 	
-	private static FAtlasElement[] _walkElements;
-	private static FAtlasElement[] _attackElements;
-	private static FAtlasElement[] _walkAndAttackElements;
+	public static MBeastElementSet[] _elementSets;
+	
+	private MBeastElementSet _elementSet;
 	
 	public float radius = 20.0f;
 	
@@ -27,28 +52,42 @@ public class MBeast : FContainer
 	
 	public float speed;
 	
+	public MBeastType beastType;
+	
 	public static void Init()
 	{
-		_walkElements = new FAtlasElement[10];
-		_attackElements = new FAtlasElement[10];
-		_walkAndAttackElements = new FAtlasElement[_walkElements.Length + _attackElements.Length];
+		_elementSets = new MBeastElementSet[MColor.colors.Length*MBeastType.beastTypes.Length];
 		
-		int allIndex = 0;
-		
-		for(int f = 0; f<_walkElements.Length; f++)
+		int e = 0;
+		for(int c = 0; c<MColor.colors.Length; c++)
 		{
-			_walkAndAttackElements[allIndex++] = _walkElements[f] = Futile.atlasManager.GetElementWithName("Beast_walking_"+f+".png");	
+			for(int t = 0; t<MBeastType.beastTypes.Length; t++)
+			{
+				MBeastElementSet elementSet = new MBeastElementSet();
+				_elementSets[e] = elementSet;
+				elementSet.walkElements = new FAtlasElement[10];
+				elementSet.attackElements = new FAtlasElement[10];
+				elementSet.walkAndAttackElements = new FAtlasElement[elementSet.walkElements.Length + elementSet.attackElements.Length];
+			
+				int allIndex = 0;
+				
+				for(int f = 0; f<elementSet.walkElements.Length; f++)
+				{
+					elementSet.walkAndAttackElements[allIndex++] = elementSet.walkElements[f] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_walking_"+f+".png");	
+				}
+				
+				for(int f = 0; f<elementSet.attackElements.Length; f++)
+				{
+					elementSet.walkAndAttackElements[allIndex++] = elementSet.attackElements[f] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_attacking_"+f+".png");	
+				}
+				e++;
+			}
 		}
-		
-		for(int f = 0; f<_attackElements.Length; f++)
-		{
-			_walkAndAttackElements[allIndex++] = _attackElements[f] = Futile.atlasManager.GetElementWithName("Beast_attacking_"+f+".png");	
-		}
-	} 
+	}  
 	
 	public MBeast()
 	{
-		AddChild(_sprite = new FSprite(_walkElements[0].name));
+		AddChild(_sprite = new FSprite(_elementSets[0].walkElements[0].name));
 		//_sprite.shader = FShader.AdditiveColor;
 	}
 	
@@ -56,19 +95,21 @@ public class MBeast : FContainer
 	{
 		this.player = player;
 		
-		_sprite.color = player.color.beastColor;
-		
 		hasTarget = false;
 		target = new Vector2(0,0);
 		velocity = new Vector2(0,0);
 		speed = 1.0f;
+		beastType = MBeastType.A;
+		
+		_elementSet = _elementSets[player.color.index*MBeastType.beastTypes.Length + beastType.index];
+		_sprite.element = _elementSet.walkElements[0];
 		
 		this.isEnabled = true;
 	}
 	
 	public void Destroy()
 	{
-		this.isEnabled = false;
+		this.isEnabled = false; 
 	}
 	
 	public bool isEnabled
