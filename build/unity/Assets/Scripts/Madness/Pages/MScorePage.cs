@@ -39,6 +39,8 @@ public class MScorePage : MPage
 		
 		_againButton.SignalRelease += HandleStartButtonRelease;
 		
+		this.alpha = 0.0f;
+		Go.to (this, 0.5f, new TweenConfig().floatProp("alpha",1.0f));
 	}
 	
 	private void HandleStartButtonRelease (FButton button)

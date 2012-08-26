@@ -43,11 +43,19 @@ public class MInGamePage : MPage
 		_backButton.SignalRelease += HandleStartButtonRelease;
 		
 		_game = new MGame(this);
+		
+		this.alpha = 0;
+		Go.to (this, 0.5f, new TweenConfig().floatProp("alpha",1.0f));
 	}
 	
 	private void HandleStartButtonRelease (FButton button)
 	{
 		MMain.instance.GoToPage(MPageType.TitlePage);
+	}
+	
+	public void ShowWinForPlayer(MPlayer player, List<MPlayer>players)
+	{
+		MMain.instance.GoToPage(MPageType.ScorePage);
 	}
 
 }

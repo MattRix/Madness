@@ -87,20 +87,21 @@ public static class ArrayExtensions
 	{
 		//this thing basically just removes it from the array
 		bool wasFound = false;
+		
 		for(int i = 0; i<count; i++)
 		{
 			if(wasFound)
 			{
 				T item = items[i];
-				if(item == null) break;
 				items[i-1] = item;
 			}
 			else if(items[i] == itemToRemove)
 			{
 				wasFound = true;
-				count--;
 			}
 		}	
+		
+		if(wasFound) count--;
 	}
 }
 

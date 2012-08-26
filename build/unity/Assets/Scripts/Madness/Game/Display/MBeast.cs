@@ -62,6 +62,8 @@ public class MBeast : FContainer
 	public bool isAttacking;
 	public MBeast attackTarget;
 	public int attackFrame;
+	public bool isAttackingTower;
+	public MTower attackTower;
 	
 	public float defence;
 	public float offence;
@@ -142,7 +144,9 @@ public class MBeast : FContainer
 		speed = 10.0f;
 		beastType = MBeastType.A;
 		attackTarget = null;
+		attackTower = null;
 		isAttacking = false;
+		isAttackingTower = false;
 		attackFrame = 0;
 		blinkFrame = 0;
 		
@@ -164,6 +168,7 @@ public class MBeast : FContainer
 	public void Destroy()
 	{
 		attackTarget = null;
+		attackTower = null;
 		this.isEnabled = false; 
 	}
 	

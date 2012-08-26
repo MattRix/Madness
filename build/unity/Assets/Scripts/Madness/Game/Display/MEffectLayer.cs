@@ -35,6 +35,27 @@ public class MEffectLayer : FContainer
 		AddChildAtIndex(explosion,0);
 	}
 	
+	static public Color red = Color.red;
+	
+	public void ShowTowerHitForTower (MTower tower)
+	{
+		FSprite towerHit = new FSprite("TowerHit.png");
+		towerHit.shader = FShader.Additive;
+		towerHit.color = red; 
+		
+		AddChild(towerHit);
+		towerHit.x = tower.x;
+		towerHit.y = tower.y;
+		
+		Go.to (towerHit,0.2f,new TweenConfig().floatProp("alpha", 0.0f).onComplete(HandleTowerHitComplete));
+	}
+	
+	private void HandleTowerHitComplete(AbstractTween tween)
+	{
+		FSprite sprite = (tween as Tween).target as FSprite;
+		sprite.RemoveFromContainer();
+	}
+	
 	//TODO: use something other than GoTween to do this... seems really overkill for something that happens ALL the time
 	public void ShowAttackMarkForPlayer(MPlayer player, Vector2 position)
 	{

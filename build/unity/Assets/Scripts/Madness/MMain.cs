@@ -43,6 +43,7 @@ public class MMain : MonoBehaviour
 		
 		MBeast.Init(); //sets up the MBeast animation elements
 		MExplosion.Init(); //sets up the explosion elements
+		MTower.Init (); //sets up the tower elements
 		
 		GoToPage(MPageType.TitlePage);
 	}

@@ -13,14 +13,16 @@ public class MPlayer
 	public float angle;
 	public MTower tower;
 	
-	public int maxBeasts = 200;
+	public int maxBeasts = 80;
 		
-	public int maxFramesTillBeast = 30;//120;
+	public int maxFramesTillBeast = 30;//180;
 	public int framesTillBeast;
 	
 	public float nextBeastCreationAngle = 0.0f;
 	
-	public List<MBeast> beasts = new List<MBeast>(200);
+	public List<MBeast> beasts = new List<MBeast>(80);
+	
+	public bool isDead = false;
 	
 	public MPlayer(int index, bool isHuman, string name, MColor color)
 	{

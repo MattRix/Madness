@@ -38,13 +38,15 @@ public class MTitlePage : MPage
 		_startButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "ClickSound");
 		_startButton.AddLabel("Cubano","START!",Color.white);
 		
-		_startButton.x = Futile.screen.halfWidth-100;
-		_startButton.y = -Futile.screen.halfHeight+100;
+		_startButton.x = 0;
+		_startButton.y = -150.0f;
 		
 		AddChild(_startButton);
 
 		_startButton.SignalRelease += HandleStartButtonRelease;
 		
+		this.alpha = 0.0f;
+		Go.to (this, 0.5f, new TweenConfig().floatProp("alpha",1.0f));
 	}
 	
 	private void HandleStartButtonRelease (FButton button)
@@ -55,6 +57,15 @@ public class MTitlePage : MPage
 	protected void HandleUpdate ()
 	{
 		
+	}
+	
+	private class Thing
+	{
+		public string name;	
+		public Thing(string name)
+		{
+			this.name = name;	
+		}
 	}
 
 }

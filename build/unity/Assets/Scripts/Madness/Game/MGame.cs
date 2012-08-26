@@ -9,7 +9,9 @@ public class MGame : FMultiTouchableInterface
 	
 	public static Color colorWhite = Color.white;
 	public static Color colorRed = new Color(0.65f,0.0f,0.0f,1.0f);
+	
 	public FContainer container;
+	public MInGamePage page;
 	
 	public MEffectLayer effectLayer;
 	
@@ -27,10 +29,15 @@ public class MGame : FMultiTouchableInterface
 	
 	private List<MBeast>_beastsThatDied = new List<MBeast>(20);
 	
-	public MGame(FContainer container)
+	private List<MTower>_towersThatWereDestroyed = new List<MTower>(4);
+	
+	private MPlayer _winningPlayer = null;
+	
+	public MGame(MInGamePage page)
 	{
 		instance = this;
-		this.container = container;
+		this.page = page;
+		this.container = page;
 		
 		_players.Add(new MPlayer(0, true,"YOU",MColor.Green));
 		_players.Add(new MPlayer(1, false,"RED",MColor.Red));
@@ -86,6 +93,8 @@ public class MGame : FMultiTouchableInterface
 		{
 			MPlayer player = _players[p];
 			
+			if(player.isDead) continue;
+			
 			player.framesTillBeast--;
 			
 			if(player.framesTillBeast == 0)
@@ -114,6 +123,7 @@ public class MGame : FMultiTouchableInterface
 			MBeast beast = _beasts[b];
 			float x = beast.x;
 			float y = beast.y;
+			MPlayer beastPlayer = beast.player;
 			Vector2 velocity = beast.velocity;
 			
 			float deltaRotation = 0.0f;
@@ -134,12 +144,13 @@ public class MGame : FMultiTouchableInterface
 				{
 					if(distance < nearbyRadius)
 					{
-						if(beast.player != otherBeast.player)
+						if(beastPlayer != otherBeast.player)
 						{
 							if(!beast.isAttacking)
 							{
 								//attack enemy
 								beast.isAttacking = true;
+								beast.isAttackingTower = false;
 								beast.attackTarget = otherBeast;
 								beast.attackFrame = 0;
 							}
@@ -157,13 +168,14 @@ public class MGame : FMultiTouchableInterface
 					} 
 					else if(distance < nearbyRadius + 4.0f) //fudge area, not too close or to far
 					{
-						if(beast.player != otherBeast.player)
+						if(beastPlayer != otherBeast.player)
 						{
 							if(!beast.isAttacking)
 							{
 								//attack enemy
 								beast.attackFrame = 0;
 								beast.isAttacking = true;
+								beast.isAttackingTower = false;
 								beast.attackTarget = otherBeast;
 							}
 							
@@ -175,7 +187,7 @@ public class MGame : FMultiTouchableInterface
 					else 
 					{
 						//move toward enemy!
-						if(beast.player != otherBeast.player)
+						if(beastPlayer != otherBeast.player)
 						{
 							tempVector.x = 0.0001f + -dx;
 							tempVector.y = -dy;
@@ -186,53 +198,135 @@ public class MGame : FMultiTouchableInterface
 				}
 			}
 			
+			for(int t = 0; t<towerCount; t++)
+			{
+				MTower tower = _towers[t];	
+				float dx = tower.x - x;
+				float dy = tower.y - y;
+				
+				float distanceToTower = Mathf.Sqrt(dx*dx + dy*dy);
+				
+				if(distanceToTower < towerRadius+attackRadius)
+				{
+					if(distanceToTower < towerRadius + 5.0) //5 unit happy zone
+					{
+						if(distanceToTower < towerRadius)
+						{
+							tempVector.x = dx;
+							tempVector.y = dy;
+							tempVector.Normalize();
+							velocity -= tempVector * 2.0f;	//push away from tower
+						}
+						
+						if(beastPlayer != tower.player)
+						{
+							if(!beast.isAttacking)
+							{
+								//ATTACK TOWER
+								beast.attackFrame = 0;
+								beast.isAttacking = true;
+								beast.isAttackingTower = true;
+								beast.attackTower = tower;
+							}
+							
+							//face the tower you're attacking!
+							float faceEnemyRotation = -Mathf.Atan2(dy, dx) * RXMath.RTOD + 90.0f;
+							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
+						}
+					}
+					else 
+					{
+						if(beastPlayer != tower.player)
+						{
+							tempVector.x = dx;
+							tempVector.y = dy;
+							tempVector.Normalize();
+							velocity += tempVector * 0.1f;	//push towards the tower
+						}
+					}
+				}
+			}
+			
 			if(beast.isAttacking)
 			{
 				if(isFrameEven) beast.attackFrame ++; //only increment every other frame
 				if(beast.attackFrame == 5)
 				{
-					MBeast attackTarget = beast.attackTarget;
-					beast.attackFrame++;
-					//Do the attack!
-					//beast.attackTarget.hit();
-					
-					if(attackTarget != null && attackTarget.isEnabled)
+					if(beast.isAttackingTower)
 					{
 						
-						if(attackTarget.health > 0)
+						if(beast.attackTower != null && beast.attackTower.health > 0)
 						{
-							float damage = Math.Max(1.0f, beast.offence - attackTarget.defence); //damage must be at least 1
-							attackTarget.health -= damage;
+							MTower attackTower = beast.attackTower;
+							//tower has 25 defence
+							attackTower.health -= Math.Max(1.0f, beast.offence - 24.0f); //tower always takes 1 damage
+							attackTower.UpdateHealthPercent();
 							
-							if(attackTarget.health <= 0)
+							if(attackTower.health <= 0)
 							{
-								if(!_beastsThatDied.Contains(attackTarget))
-								{
-									_beastsThatDied.Add(attackTarget);	
-								}
+								_towersThatWereDestroyed.Add (attackTower);
+							}
+							else 
+							{
+								effectLayer.ShowTowerHitForTower(attackTower);
 							}
 							
-							attackTarget.sprite.shader = FShader.AdditiveColor;
-							attackTarget.sprite.color = attackTarget.player.color.attackRedColor;
-							_beastContainerSpecial.AddChild (attackTarget);
-							attackTarget.blinkFrame = 7;
+							//this will make the attack graphic show on the closest side of the tower
+							tempVector.x = attackTower.x-x;
+							tempVector.y = attackTower.y-y;
+							tempVector.Normalize();
+							tempVector *= -30.0f;  
+							
+							effectLayer.ShowAttackMarkForPlayer(beastPlayer, new Vector2(attackTower.x+tempVector.x,attackTower.y+tempVector.y));
 						}
 						
-						//this will make the attack graphic show on the closest side of the beast
-						tempVector.x = attackTarget.x-x;
-						tempVector.y = attackTarget.y-y;
-						tempVector.Normalize();
-						tempVector *= -10.0f;  
+						beast.attackTower = null;
+					}
+					else //attack the other beast
+					{
+						MBeast attackTarget = beast.attackTarget;
+						beast.attackFrame++;
 						
-						effectLayer.ShowAttackMarkForPlayer(beast.player, new Vector2(attackTarget.x+tempVector.x,attackTarget.y+tempVector.y));
+						if(attackTarget != null && attackTarget.isEnabled)
+						{
+							
+							if(attackTarget.health > 0)
+							{
+								float damage = Math.Max(1.0f, beast.offence - attackTarget.defence); //damage must be at least 1
+								attackTarget.health -= damage;
+								
+								if(attackTarget.health <= 0)
+								{
+									if(!_beastsThatDied.Contains(attackTarget))
+									{
+										_beastsThatDied.Add(attackTarget);	
+									}
+								}
+								
+								attackTarget.sprite.shader = FShader.AdditiveColor;
+								attackTarget.sprite.color = attackTarget.player.color.attackRedColor;
+								_beastContainerSpecial.AddChild (attackTarget);
+								attackTarget.blinkFrame = 7;
+							}
+							
+							//this will make the attack graphic show on the closest side of the beast
+							tempVector.x = attackTarget.x-x;
+							tempVector.y = attackTarget.y-y;
+							tempVector.Normalize();
+							tempVector *= -10.0f;  
+							
+							effectLayer.ShowAttackMarkForPlayer(beastPlayer, new Vector2(attackTarget.x+tempVector.x,attackTarget.y+tempVector.y));
+						}
+						
+						beast.attackTarget = null;
 					}
 					
-					beast.attackTarget = null;
 				}
 				else if (beast.attackFrame >= 19)
 				{
 					beast.isAttacking = false;
 					beast.attackTarget = null;
+					beast.attackTower = null;
 					beast.attackFrame = 0;
 				}
 			}
@@ -253,26 +347,6 @@ public class MGame : FMultiTouchableInterface
 				}
 			}
 			
-			
-			for(int t = 0; t<towerCount; t++)
-			{
-				MTower tower = _towers[t];	
-				float dx = Math.Abs(tower.x - x);
-				if(dx > attackRadius) continue;
-				float dy = Math.Abs(tower.y - y);
-				if(dy > attackRadius) continue;
-				
-				int distanceToTower = preCalcSQRTs[(int)(dx*dx + dy*dy)];
-				
-				if(distanceToTower < towerRadius)
-				{
-					tempVector.x = x-tower.x;
-					tempVector.y = y-tower.y;
-					tempVector.Normalize();
-					velocity += tempVector;	//push away from tower
-				}
-			}
-			
 			float distanceToCenter = Mathf.Sqrt(x*x + y*y);
 			
 			if(distanceToCenter > wallRadius)
@@ -289,13 +363,13 @@ public class MGame : FMultiTouchableInterface
 			beast.y += velocity.y * 0.5f;
 			
 			float goalRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
-			deltaRotation += RXMath.getDegreeDelta(beast.rotation,goalRotation) * 0.02f;
+			deltaRotation += RXMath.getDegreeDelta(beast.rotation,goalRotation) * 0.06f;
 			
 			beast.rotation += Math.Max(-3.0f, Math.Min (3.0f, deltaRotation*0.9f));
 			
 			//ease the velocity
-			velocity.x *= 0.55f;
-			velocity.y *= 0.55f;
+			velocity.x *= 0.45f;
+			velocity.y *= 0.45f;
 			
 			float moveAmount = Math.Min(1.5f, 20.0f*Mathf.Abs(velocity.x*velocity.y)) + Math.Abs (deltaRotation);
 			
@@ -336,12 +410,75 @@ public class MGame : FMultiTouchableInterface
 		
 		_beastsThatDied.Clear();
 		
-		if(frameCount % 600 == 0)
+		for(int t = 0; t<_towersThatWereDestroyed.Count; t++)
 		{
-			SetAttackTarget(_players[2], new Vector2(_towers[1].x,_towers[1].y));
+			MTower destroyedTower = _towersThatWereDestroyed[t];
+			KillPlayer(destroyedTower.player);
+			Debug.Log ("KILL PLAYER DESTROY TOWER ETC");
 		}
 		
+		_towersThatWereDestroyed.Clear ();
+		
+
 		frameCount++;
+	}
+	
+	private void KillPlayer(MPlayer player)
+	{
+		player.isDead = true;
+		
+		effectLayer.ShowTowerExplosionForTower(player.tower);
+		player.tower.RemoveFromContainer();
+		
+		_towers.Remove(player.tower);
+		
+		for(int b = 0; b< player.beasts.Count; b++)
+		{
+			MBeast beast = player.beasts[b];
+			if(beast.health > 0)
+			{
+				effectLayer.ShowBeastExplosionForBeast(beast);
+				RemoveBeast(beast);
+			}
+		}
+		
+		int remainingPlayers = 0;
+		MPlayer remainingPlayer = null;
+		for(int p = 0; p<_players.Count; p++)
+		{
+			if(!_players[p].isDead)	
+			{
+				remainingPlayers++;
+				remainingPlayer = _players[p];
+			}
+		}
+		
+		if(remainingPlayers == 1)
+		{
+			_winningPlayer = remainingPlayer;
+			
+			FLabel winLabel;
+			if(_winningPlayer.isHuman)
+			{
+				winLabel = new FLabel("Cubano","YOU WIN!");
+			}
+			else 
+			{
+				winLabel = new FLabel("Cubano","YOU LOSE!");
+			}
+			
+			container.AddChild(winLabel);
+			
+			winLabel.scale = 0.8f;
+			
+			Go.to (winLabel,6.0f,new TweenConfig().floatProp("alpha",1.0f).floatProp("scale",1.0f).onComplete(HandleWinComplete));
+		}
+		
+	}
+	
+	private void HandleWinComplete(AbstractTween tween)
+	{
+		page.ShowWinForPlayer(_winningPlayer, _players);
 	}
 	
 	public void SetAttackTarget(MPlayer player, Vector2 targetPosition)
