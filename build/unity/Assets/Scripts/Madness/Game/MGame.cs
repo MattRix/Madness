@@ -225,6 +225,7 @@ public class MGame : FMultiTouchableInterface
 			//ATTACK CLOSE ENEMY
 			//APPLY VELOCITY
 			
+			//apply half the velocity 
 			beast.x += velocity.x * 0.5f;
 			beast.y += velocity.y * 0.5f;
 			
@@ -232,12 +233,21 @@ public class MGame : FMultiTouchableInterface
 			deltaRotation += RXMath.getDegreeDelta(beast.rotation,goalRotation) * 0.02f;
 			
 			beast.rotation += Math.Max(-3.0f, Math.Min (3.0f, deltaRotation*0.9f));
-			 
 			
-			velocity.x *= 0.6f;
-			velocity.y *= 0.6f;
+			//ease the velocity
+			velocity.x *= 0.55f;
+			velocity.y *= 0.55f;
+			
+			float moveAmount = 20.0f*Mathf.Abs(velocity.x*velocity.y) + Math.Abs (deltaRotation);
 			
 			beast.velocity = velocity;
+			
+			beast.AdvanceFrame(moveAmount);
+			
+			if(beast.scale < 1.0f)
+			{
+				beast.scale += 0.025f;	
+			}
 		}
 		
 		frameCount++;

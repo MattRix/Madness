@@ -54,6 +54,8 @@ public class MBeast : FContainer
 	
 	public MBeastType beastType;
 	
+	private float _advanceCount;
+	
 	public static void Init()
 	{
 		_elementSets = new MBeastElementSet[MColor.colors.Length*MBeastType.beastTypes.Length];
@@ -65,21 +67,34 @@ public class MBeast : FContainer
 			{
 				MBeastElementSet elementSet = new MBeastElementSet();
 				_elementSets[e] = elementSet;
-				elementSet.walkElements = new FAtlasElement[10];
-				elementSet.attackElements = new FAtlasElement[10];
+				elementSet.walkElements = new FAtlasElement[19];
+				elementSet.attackElements = new FAtlasElement[19];
 				elementSet.walkAndAttackElements = new FAtlasElement[elementSet.walkElements.Length + elementSet.attackElements.Length];
 			
 				int allIndex = 0;
+				int walkIndex = 0;
+				int attackIndex = 0;
 				
-				for(int f = 0; f<elementSet.walkElements.Length; f++)
+				for(int f = 0; f<10; f++)
 				{
-					elementSet.walkAndAttackElements[allIndex++] = elementSet.walkElements[f] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_walking_"+f+".png");	
+					elementSet.walkAndAttackElements[allIndex++] = elementSet.walkElements[walkIndex++] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_walking_"+f+".png");	
 				}
 				
-				for(int f = 0; f<elementSet.attackElements.Length; f++)
+				for(int f = 8; f>=0; f--)
 				{
-					elementSet.walkAndAttackElements[allIndex++] = elementSet.attackElements[f] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_attacking_"+f+".png");	
+					elementSet.walkAndAttackElements[allIndex++] = elementSet.walkElements[walkIndex++] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_walking_"+f+".png");	
 				}
+				
+				for(int f = 0; f<10; f++)
+				{
+					elementSet.walkAndAttackElements[allIndex++] = elementSet.attackElements[attackIndex++] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_attacking_"+f+".png");	
+				}
+				
+				for(int f = 8; f>=0; f--)
+				{
+					elementSet.walkAndAttackElements[allIndex++] = elementSet.attackElements[attackIndex++] = Futile.atlasManager.GetElementWithName(c+"_"+t+"/Beast_attacking_"+f+".png");	
+				}
+				
 				e++;
 			}
 		}
@@ -89,6 +104,13 @@ public class MBeast : FContainer
 	{
 		AddChild(_sprite = new FSprite(_elementSets[0].walkElements[0].name));
 		//_sprite.shader = FShader.AdditiveColor;
+	}
+	
+	
+	public void AdvanceFrame(float amount)
+	{
+		_advanceCount += amount;
+		_sprite.element = _elementSet.walkElements[(int)_advanceCount%19];
 	}
 	
 	public void Start(MPlayer player)
@@ -103,6 +125,10 @@ public class MBeast : FContainer
 		
 		_elementSet = _elementSets[player.color.index*MBeastType.beastTypes.Length + beastType.index];
 		_sprite.element = _elementSet.walkElements[0];
+		
+		_advanceCount = 0;
+		
+		this.scale = 0.0f;
 		
 		this.isEnabled = true;
 	}

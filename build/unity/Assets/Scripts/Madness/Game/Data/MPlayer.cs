@@ -13,7 +13,7 @@ public class MPlayer
 	public float angle;
 	public MTower tower;
 	
-	public int maxBeasts = 50;
+	public int maxBeasts = 200;
 		
 	public int maxFramesTillBeast = 30;//120;
 	public int framesTillBeast;
