@@ -11,6 +11,29 @@ public class MEffectLayer : FContainer
 	
 	}
 
+	public void CreateDNA (Vector2 position, int amount)
+	{
+		FSprite coin = new FSprite("Coin.png");
+		coin.shader = FShader.Additive;
+		
+		AddChild(coin);
+		coin.x = position.x;
+		coin.y = position.y;
+		coin.data = amount;
+		
+		coin.scale = 1.0f;
+		
+		Go.to (coin,0.8f,new TweenConfig().floatProp("x",100).floatProp("y",100).onComplete(HandleDNAComplete));
+		Go.to (coin,0.3f,new TweenConfig().floatProp("scale",0.3f).setDelay(0.5f));
+	}
+	
+	private void HandleDNAComplete(AbstractTween tween)
+	{
+		FSprite coin = (tween as Tween).target as FSprite;
+		coin.RemoveFromContainer();
+		MGame.instance.AddDNA((int) coin.data);
+	}
+
 	public void ShowBeastExplosionForBeast (MBeast beast)
 	{
 		MExplosion explosion = new MExplosion(true);

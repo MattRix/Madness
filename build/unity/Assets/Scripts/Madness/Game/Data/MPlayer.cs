@@ -24,6 +24,8 @@ public class MPlayer
 	
 	public bool isDead = false;
 	
+	public int dna = 0;
+	
 	public MPlayer(int index, bool isHuman, string name, MColor color)
 	{
 		this.index = index;

@@ -56,6 +56,29 @@ public class MGame : FMultiTouchableInterface
 		
 		Futile.instance.SignalUpdate += HandleUpdate;
 		Futile.touchManager.AddMultiTouchTarget(this);
+		
+		FLabel infoLabel = new FLabel("Cubano","CLICK TO MOVE THE GREEN GUYS!\nDESTROY THEIR MOTHER-CELLS!\nEVOLVE BY USING DNA!");
+
+		container.AddChild(infoLabel);
+		
+		infoLabel.scale = 0.8f;
+		
+		Go.to (infoLabel,10.0f,new TweenConfig().floatProp("scale",1.0f).onComplete(HandleInfoBuildComplete));
+	}
+
+	public void AddDNA (int amount)
+	{
+		_human.dna += amount;
+	}
+	
+	public void RemoveDNA (int amount)
+	{
+		_human.dna -= amount;
+	}
+	
+	private void HandleInfoBuildComplete(AbstractTween tween)
+	{
+		container.RemoveChild(((tween as Tween).target as FLabel));	
 	}
 	
 	public void Destroy()
@@ -299,6 +322,15 @@ public class MGame : FMultiTouchableInterface
 								{
 									if(!_beastsThatDied.Contains(attackTarget))
 									{
+										if(beastPlayer.isHuman)
+										{
+											effectLayer.CreateDNA(new Vector2(attackTarget.x,attackTarget.y), 1);
+										}
+										else 
+										{
+											beast.player.dna++;	
+										}
+										
 										_beastsThatDied.Add(attackTarget);	
 									}
 								}
@@ -471,7 +503,7 @@ public class MGame : FMultiTouchableInterface
 			
 			winLabel.scale = 0.8f;
 			
-			Go.to (winLabel,6.0f,new TweenConfig().floatProp("alpha",1.0f).floatProp("scale",1.0f).onComplete(HandleWinComplete));
+			Go.to (winLabel,6.0f,new TweenConfig().floatProp("scale",1.0f).onComplete(HandleWinComplete));
 		}
 		
 	}
