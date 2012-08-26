@@ -9,16 +9,19 @@ public class MGame : FMultiTouchableInterface
 	
 	public FContainer container;
 	
-	private FContainer _wadContainer;
+	public MEffectLayer effectLayer;
+	
+	private FContainer _beastContainer;
 	
 	private List<MPlayer> _players = new List<MPlayer>();
 	private MPlayer _human;
 	private List<MTower> _towers = new List<MTower>();
 	
-	private int _wadCount = 0;
-	private MWad[] _wads;
+	private int _beastCount = 0;
+	private MBeast[] _beasts;
 	
 	public int frameCount = 0;
+	
 	
 	public MGame(FContainer container)
 	{
@@ -31,11 +34,13 @@ public class MGame : FMultiTouchableInterface
 		
 		_human = _players[0]; 
 		
-		_wads = new MWad[_players.Count * (_human.maxWads + 20)];
+		_beasts = new MBeast[_players.Count * (_human.maxBeasts + 20)];
 		
 		CreateTowers();
 		
-		container.AddChild(_wadContainer = new FContainer());
+		container.AddChild(_beastContainer = new FContainer());
+		
+		container.AddChild(effectLayer = new MEffectLayer());
 		
 		Futile.instance.SignalUpdate += HandleUpdate;
 		Futile.touchManager.AddMultiTouchTarget(this);
@@ -45,7 +50,7 @@ public class MGame : FMultiTouchableInterface
 	{
 		Futile.touchManager.RemoveMultiTouchTarget(this);
 		Futile.instance.SignalUpdate -= HandleUpdate;
-		MWad.pool.Clear();
+		MBeast.pool.Clear();
 		Futile.instance.shouldRunGCNextUpdate = true;
 	}
 
@@ -76,13 +81,13 @@ public class MGame : FMultiTouchableInterface
 		{
 			MPlayer player = _players[p];
 			
-			player.framesTillWad--;
+			player.framesTillBeast--;
 			
-			if(player.framesTillWad == 0)
+			if(player.framesTillBeast == 0)
 			{
-				player.framesTillWad = player.maxFramesTillWad;
+				player.framesTillBeast = player.maxFramesTillBeast;
 				
-				CreateWad(player);	
+				CreateBeast(player);	
 			}
 		}
 		
@@ -97,21 +102,21 @@ public class MGame : FMultiTouchableInterface
 		
 		int towerCount = _towers.Count;
 		
-		for(int w = 0; w<_wadCount; w++)
+		for(int b = 0; b<_beastCount; b++)
 		{
-			MWad wad = _wads[w];
-			float x = wad.x;
-			float y = wad.y;
-			Vector2 velocity = wad.velocity;
+			MBeast beast = _beasts[b];
+			float x = beast.x;
+			float y = beast.y;
+			Vector2 velocity = beast.velocity;
 			
-			for(int c = 0; c<_wadCount; c++)
+			for(int c = 0; c<_beastCount; c++)
 			{
-				MWad otherWad = _wads[c];
-				if(otherWad == wad) continue;
+				MBeast otherBeast = _beasts[c];
+				if(otherBeast == beast) continue;
 				
-				float dx = Math.Abs(otherWad.x - x);
+				float dx = Math.Abs(otherBeast.x - x);
 				if(dx > attackRadius) continue;
-				float dy = Math.Abs(otherWad.y - y);
+				float dy = Math.Abs(otherBeast.y - y);
 				if(dy > attackRadius) continue;
 				
 				int distance = preCalcSQRTs[(int)(dx*dx + dy*dy)];
@@ -120,29 +125,37 @@ public class MGame : FMultiTouchableInterface
 				{
 					if(distance < nearbyRadius)
 					{
-						if(wad.player != otherWad.player)
+						if(beast.player != otherBeast.player)
 						{
 							//attack enemy
 						}
 						
 						//push away from enemy
-						tempVector.x = 0.0001f + x-otherWad.x;
-						tempVector.y = y-otherWad.y;
+						tempVector.x = 0.0001f + x-otherBeast.x;
+						tempVector.y = y-otherBeast.y;
 						tempVector.Normalize();
 						velocity += tempVector;	
 					}
 					else 
 					{
 						//move toward enemy!
-						if(wad.player != otherWad.player)
+						if(beast.player != otherBeast.player)
 						{
-							tempVector.x = 0.0001f + x-otherWad.x;
-							tempVector.y = y-otherWad.y;
+							tempVector.x = 0.0001f + x-otherBeast.x;
+							tempVector.y = y-otherBeast.y;
 							tempVector.Normalize();
 							velocity -= tempVector;	
 						}
 					}
 				}
+			}
+			
+			if(beast.hasTarget)
+			{
+				tempVector.x = beast.target.x - beast.x;
+				tempVector.y = beast.target.y - beast.y;
+				tempVector.Normalize();
+				velocity += tempVector * beast.speed;	
 			}
 			
 			
@@ -165,7 +178,6 @@ public class MGame : FMultiTouchableInterface
 				}
 			}
 			
-			
 			float distanceToCenter = Mathf.Sqrt(x*x + y*y);
 			
 			if(distanceToCenter > wallRadius)
@@ -187,77 +199,84 @@ public class MGame : FMultiTouchableInterface
 			//ATTACK CLOSE ENEMY
 			//APPLY VELOCITY
 			
-			wad.x += velocity.x;
-			wad.y += velocity.y;
+			beast.x += velocity.x;
+			beast.y += velocity.y;
 			
 			velocity.x *= 0.1f;
 			velocity.y *= 0.1f;
 			
-			wad.velocity = velocity;
+			beast.velocity = velocity;
 		}
 		
 		frameCount++;
 	}
-
-	//from http://www.codecodex.com/wiki/Calculate_an_integer_square_root#C.23
-	private static int IntSQRT(int num)
-	{
-		if (0 == num) { return 0; }  // Avoid zero divide  
-	    int n = (num / 2) + 1;       // Initial estimate, never low  
-	    int n1 = (n + (num / n)) / 2;  
-	    while (n1 < n) {  
-	        n = n1;  
-	        n1 = (n + (num / n)) / 2;  
-	    } // end while  
-	    return n;  
-	}
 	
-	public MWad GetNewWad()
+	public void SetAttackTarget(MPlayer player, Vector2 targetPosition)
 	{
-		MWad wad = (MWad.pool.Count == 0) ? new MWad() : MWad.pool.Pop();
+		float distance = Mathf.Sqrt(targetPosition.x*targetPosition.x + targetPosition.y*targetPosition.y);
 		
-		_wadContainer.AddChild(wad);
-		return wad; 
-	}
-	
-	public void CreateWad(MPlayer player)
-	{
-		if(player.wads.Count >= player.maxWads) return; //TODO: Show a "max wads limit reached!" indicator on screen
+		if(distance > MConfig.WALL_RADIUS + 50.0f) return; //no attacking too far outside the wall
 		
-		MWad wad = GetNewWad();
-		wad.Start(player);
-		_wadContainer.AddChild(wad);
-		if(_wads.Length <= _wadCount)
+		List<MBeast> beasts = player.beasts;
+		int beastCount = beasts.Count;
+		for(int b = 0; b<beastCount; b++)
 		{
-			Array.Resize(ref _wads,_wadCount+20);	
+			MBeast beast = beasts[b];
+			beast.hasTarget = true;
+			beast.target = targetPosition;
 		}
-		_wads[_wadCount++] = wad; 
-		player.wads.Add(wad);
 		
-		float creationAngle = player.angle + player.nextWadCreationAngle;
-		
-		wad.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+wad.radius); 
-		wad.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+wad.radius); 
-		
-		player.nextWadCreationAngle = (player.nextWadCreationAngle + 30.0f)%360.0f;
+		if(player.isHuman) effectLayer.ShowCrosshairForPlayer(player, targetPosition);
 	}
 	
-	public void RemoveWad(MWad wadToRemove)
+	public MBeast GetNewBeast()
 	{
-		wadToRemove.Destroy();
-		_wads.RemoveItem(wadToRemove, ref _wadCount);
+		MBeast beast = (MBeast.pool.Count == 0) ? new MBeast() : MBeast.pool.Pop();
 		
-		wadToRemove.player.wads.Remove(wadToRemove); 
-		MWad.pool.Add (wadToRemove);
+		_beastContainer.AddChild(beast);
+		return beast; 
 	}
+	
+	public void CreateBeast(MPlayer player)
+	{
+		if(player.beasts.Count >= player.maxBeasts) return; //TODO: Show a "max beasts limit reached!" indicator on screen
+		
+		MBeast beast = GetNewBeast();
+		beast.Start(player);
+		_beastContainer.AddChild(beast);
+		if(_beasts.Length <= _beastCount)
+		{
+			Array.Resize(ref _beasts,_beastCount+20);	
+		}
+		_beasts[_beastCount++] = beast; 
+		player.beasts.Add(beast);
+		
+		float creationAngle = player.angle + player.nextBeastCreationAngle;
+		
+		beast.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+beast.radius); 
+		beast.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+beast.radius); 
+		
+		player.nextBeastCreationAngle = (player.nextBeastCreationAngle + 30.0f)%360.0f;
+	} 
+	
+	public void RemoveBeast(MBeast beastToRemove)
+	{
+		beastToRemove.Destroy();
+		_beasts.RemoveItem(beastToRemove, ref _beastCount);
+		
+		beastToRemove.player.beasts.Remove(beastToRemove); 
+		MBeast.pool.Add (beastToRemove);
+	}
+	
+	
 	
 	public void HandleMultiTouch(FTouch[] touches)
 	{
 		foreach(FTouch touch in touches)
 		{
-			if(touch.phase == TouchPhase.Began)
+			if(touch.fingerId == 0 && touch.phase == TouchPhase.Began)
 			{
-				
+				SetAttackTarget(_human, container.GlobalToLocal(touch.position));
 			}
 		}
 	}

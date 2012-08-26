@@ -13,16 +13,15 @@ public class MPlayer
 	public float angle;
 	public MTower tower;
 	
-	public int maxWads = 50;
+	public int maxBeasts = 50;
 		
-	public int maxFramesTillWad = 30;//120;
-	public int framesTillWad;
+	public int maxFramesTillBeast = 30;//120;
+	public int framesTillBeast;
 	
-	public float nextWadCreationAngle = 0.0f;
+	public float nextBeastCreationAngle = 0.0f;
 	
-	public List<MWad> wads = new List<MWad>();
+	public List<MBeast> beasts = new List<MBeast>();
 	
-		
 	public MPlayer(int index, bool isHuman, string name, MColor color)
 	{
 		this.index = index;
@@ -30,6 +29,6 @@ public class MPlayer
 		this.name = name;
 		this.color = color;
 		
-		framesTillWad = maxFramesTillWad;
+		framesTillBeast = maxFramesTillBeast;
 	}
 }

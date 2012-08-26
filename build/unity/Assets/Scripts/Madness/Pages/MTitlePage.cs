@@ -31,13 +31,15 @@ public class MTitlePage : MPage
 		AddChild(_background);
 	
 		_logo = new FSprite("TitleLogo.png");
-		
+		_logo.x += 10;
+		_logo.y -= 10;
 		AddChild(_logo);
 		
 		_startButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "ClickSound");
 		_startButton.AddLabel("Cubano","START!",Color.white);
 		
-		_startButton.y = -160.0f;
+		_startButton.x = Futile.screen.halfWidth-100;
+		_startButton.y = -Futile.screen.halfHeight+100;
 		
 		AddChild(_startButton);
 

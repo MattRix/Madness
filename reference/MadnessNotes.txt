@@ -21,7 +21,10 @@ Polish:
 - Click and hold to attack... a little circle should scale in for 1 second until the hold is "activated"
 - Tons of little ! above all the frog heads when they get a new attack order? Maybe they just blink or something
 - On screen stats like current wads count, "Wads killed", indicator if you're maxed out, DNA points, etc. Collect DNA!
-
+- Zoom in and slowmo on the final hit! like peggle
+- Put stuff on the desk beside the petri dish. lab notes?
+- Tower attacks critters?
+- Image effects: bloom, color correction, etc!
 __________
 
 Futile changes:
