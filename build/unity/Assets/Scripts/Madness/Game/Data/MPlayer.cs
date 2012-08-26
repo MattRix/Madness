@@ -15,7 +15,7 @@ public class MPlayer
 	
 	public int maxWads = 50;
 		
-	public int maxFramesTillWad = 120;
+	public int maxFramesTillWad = 30;//120;
 	public int framesTillWad;
 	
 	public float nextWadCreationAngle = 0.0f;

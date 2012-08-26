@@ -29,7 +29,7 @@ public class MGame : FMultiTouchableInterface
 		_players.Add(new MPlayer(1, false,"RED",MColor.Red));
 		_players.Add(new MPlayer(2, false,"BLUE",MColor.Blue));
 		
-		_human = _players[0];
+		_human = _players[0]; 
 		
 		_wads = new MWad[_players.Count * (_human.maxWads + 20)];
 		
@@ -86,13 +86,94 @@ public class MGame : FMultiTouchableInterface
 			}
 		}
 		
+		float wallRadius = MConfig.WALL_RADIUS - 20.0f;
+		
+		float attackRadius = 80.0f;
+		float nearbyRadius = 30.0f; //must be smaller than attackRadius
+		
 		for(int w = 0; w<_wadCount; w++)
 		{
 			MWad wad = _wads[w];
+			float x = wad.x;
+			float y = wad.y;
+			Vector2 velocity = wad.velocity;
+			
+			for(int c = 0; c<_wadCount; c++)
+			{
+				MWad otherWad = _wads[c];
+				if(otherWad == wad) continue;
+				
+				float dx = Math.Abs(otherWad.x - x);
+				if(dx > attackRadius) continue;
+				float dy = Math.Abs(otherWad.y - y);
+				if(dy > attackRadius) continue;
+				
+				int distance = preCalcSQRTs[(int)(dx*dx + dy*dy)];
+				
+				if(distance < attackRadius)
+				{
+					if(distance < nearbyRadius)
+					{
+						if(wad.player != otherWad.player)
+						{
+							//attack enemy
+						}
+						//move away from enemy
+						velocity += new Vector2(0.0001f + x-otherWad.x, y-otherWad.y).normalized;	
+					}
+					else 
+					{
+						//move toward enemy!
+						if(wad.player != otherWad.player)
+						{
+							//attack enemy
+							velocity -= new Vector2(0.0001f + x-otherWad.x, y-otherWad.y).normalized;	
+						}
+					}
+				}
+			}
+			
+			float distanceToCenter = Mathf.Sqrt(x*x + y*y);
+			
+			if(distanceToCenter > wallRadius)
+			{
+				velocity -= new Vector2(x, y).normalized;		
+			}
+			
+			
+			//MATCH VECTOR WITH FRIENDS?
+			//PUSH FROM TOWER
+			//PUSH FROM WALL
+			//PULL TOWARDS ENEMIES
+			//PUSH FROM TOO-CLOSE ENEMIES
+			//PUSH FROM TOO-CLOSE FRIENDS
+			//TURN TOWARDS CLOSEST ENEMY
+			//ATTACK CLOSE ENEMY
+			//APPLY VELOCITY
+			
+			wad.x += velocity.x;
+			wad.y += velocity.y;
+			
+			velocity.x *= 0.1f;
+			velocity.y *= 0.1f;
+			
+			wad.velocity = velocity;
 		}
 		
-		
 		frameCount++;
+	}
+
+	//from http://www.codecodex.com/wiki/Calculate_an_integer_square_root#C.23
+	private static int IntSQRT(int num)
+	{
+		if (0 == num) { return 0; }  // Avoid zero divide  
+	    int n = (num / 2) + 1;       // Initial estimate, never low  
+	    int n1 = (n + (num / n)) / 2;  
+	    while (n1 < n) {  
+	        n = n1;  
+	        n1 = (n + (num / n)) / 2;  
+	    } // end while  
+	    return n;  
 	}
 	
 	public MWad GetNewWad()
@@ -145,5 +226,27 @@ public class MGame : FMultiTouchableInterface
 		}
 	}
 	
+	public static int[] preCalcSQRTs;
 	
+	static MGame()
+	{
+		preCalcSQRTs = new int[20000];
+		
+		for(int i = 0; i<20000; i++)
+		{
+			preCalcSQRTs[i] = GetIntSQRT(i);	
+		}
+	}
+	
+	public static int GetIntSQRT(int num) 
+	{  
+	    if (0 == num) { return 0; }  // Avoid zero divide  
+	    int n = (num / 2) + 1;       // Initial estimate, never low  
+	    int n1 = (n + (num / n)) / 2;  
+	    while (n1 < n) {  
+	        n = n1;  
+	        n1 = (n + (num / n)) / 2;  
+	    } // end while  
+	    return n;  
+	}
 }

@@ -21,6 +21,10 @@ public class MWad : FContainer
 	
 	public Vector2 velocity = new Vector2(0,0);
 	
+	public bool hasTarget = false;
+	
+	public Vector2 target = new Vector2(0,0);
+	
 	public static void Init()
 	{
 		_walkElements = new FAtlasElement[10];
