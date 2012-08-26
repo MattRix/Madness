@@ -102,6 +102,8 @@ public class MGame : FMultiTouchableInterface
 		
 		int towerCount = _towers.Count;
 		
+		bool isFrameEven = (frameCount % 2 == 0);
+		
 		for(int b = 0; b<_beastCount; b++)
 		{
 			MBeast beast = _beasts[b];
@@ -127,9 +129,12 @@ public class MGame : FMultiTouchableInterface
 				{
 					if(distance < nearbyRadius)
 					{
-						if(beast.player != otherBeast.player)
+						if(!beast.isAttacking && beast.player != otherBeast.player)
 						{
 							//attack enemy
+							beast.isAttacking = true;
+							beast.attackTarget = otherBeast;
+							beast.attackFrame = 0;
 							
 							//face the enemy you're attacking!
 							float faceEnemyRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
@@ -142,11 +147,14 @@ public class MGame : FMultiTouchableInterface
 						tempVector.Normalize();
 						velocity += tempVector;	//push away from enemy or other beast
 					} 
-					else if(distance < nearbyRadius + 4.0f) //4 pixel fudge area
+					else if(distance < nearbyRadius + 4.0f) //fudge area, not too close or to far
 					{
-						if(beast.player != otherBeast.player)
+						if(!beast.isAttacking && beast.player != otherBeast.player)
 						{
 							//attack enemy
+							beast.attackFrame = 0;
+							beast.isAttacking = true;
+							beast.attackTarget = otherBeast;
 							
 							//face the enemy you're attacking!
 							float faceEnemyRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
@@ -165,6 +173,28 @@ public class MGame : FMultiTouchableInterface
 							velocity -= tempVector * 0.1f; //push towards enemy
 						}
 					}
+				}
+			}
+			
+			if(beast.isAttacking)
+			{
+				if(isFrameEven) beast.attackFrame ++; //only increment every other frame
+				if(beast.attackFrame == 5)
+				{
+					beast.attackFrame++;
+					//Do the attack!
+					//beast.attackTarget.hit();
+					
+					effectLayer.ShowCrosshairForPlayer(beast.player, new Vector2(beast.attackTarget.x,beast.attackTarget.y));
+					
+					
+					beast.attackTarget = null;
+				}
+				else if (beast.attackFrame >= 19)
+				{
+					beast.isAttacking = false;
+					beast.attackTarget = null;
+					beast.attackFrame = 0;
 				}
 			}
 			

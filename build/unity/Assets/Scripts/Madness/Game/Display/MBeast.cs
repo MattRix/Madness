@@ -56,6 +56,10 @@ public class MBeast : FContainer
 	
 	private float _advanceCount;
 	
+	public bool isAttacking;
+	public MBeast attackTarget;
+	public int attackFrame;
+	
 	public static void Init()
 	{
 		_elementSets = new MBeastElementSet[MColor.colors.Length*MBeastType.beastTypes.Length];
@@ -109,8 +113,15 @@ public class MBeast : FContainer
 	
 	public void AdvanceFrame(float amount)
 	{
-		_advanceCount += amount;
-		_sprite.element = _elementSet.walkElements[(int)_advanceCount%19];
+		if(isAttacking)
+		{
+			_sprite.element = _elementSet.attackElements[attackFrame];
+		}
+		else 
+		{
+			_advanceCount += amount;
+			_sprite.element = _elementSet.walkElements[(int)_advanceCount%19];
+		}
 	}
 	
 	public void Start(MPlayer player)
@@ -120,13 +131,16 @@ public class MBeast : FContainer
 		hasTarget = false;
 		target = new Vector2(0,0);
 		velocity = new Vector2(0,0);
-		speed = 1.0f;
+		speed = 10.0f;
 		beastType = MBeastType.A;
+		attackTarget = null;
+		isAttacking = false;
+		attackFrame = 0;
+		
+		_advanceCount = 0;
 		
 		_elementSet = _elementSets[player.color.index*MBeastType.beastTypes.Length + beastType.index];
 		_sprite.element = _elementSet.walkElements[0];
-		
-		_advanceCount = 0;
 		
 		this.scale = 0.0f;
 		
@@ -135,6 +149,7 @@ public class MBeast : FContainer
 	
 	public void Destroy()
 	{
+		attackTarget = null;
 		this.isEnabled = false; 
 	}
 	

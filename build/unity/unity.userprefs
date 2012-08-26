@@ -1,6 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Madness\Game\Data\MPlayer.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Madness\Game\Data\MConfig.cs" Line="7" Column="42" />
+      <File FileName="Assets\Scripts\Madness\Game\Data\MPlayer.cs" Line="21" Column="45" />
+      <File FileName="Assets\Scripts\Madness\Game\MGame.cs" Line="226" Column="20" />
+      <File FileName="Assets\Scripts\Madness\Game\Display\MBeast.cs" Line="131" Column="21" />
+      <File FileName="Assets\Scripts\Madness\Game\Display\MEffectLayer.cs" Line="31" Column="32" />
+      <File FileName="Assets\Scripts\Madness\Game\Display\MTower.cs" Line="18" Column="3" />
+      <File FileName="Assets\Scripts\Madness\MMain.cs" Line="27" Column="3" />
+      <File FileName="Assets\Scripts\Madness\Pages\MInGamePage.cs" Line="40" Column="48" />
+      <File FileName="Assets\Scripts\Madness\Pages\MTitlePage.cs" Line="36" Column="19" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
