@@ -5,8 +5,6 @@ using System.Collections.Generic;
 
 public class MTower : FContainer
 {
-	public float radius = 35.0f;
-	
 	public MPlayer player;
 	
 	private FSprite _sprite;

@@ -86,10 +86,16 @@ public class MGame : FMultiTouchableInterface
 			}
 		}
 		
-		float wallRadius = MConfig.WALL_RADIUS - 20.0f;
+		float wallRadius = MConfig.WALL_RADIUS - 27.0f;
+		
+		float towerRadius = MConfig.TOWER_RADIUS + 10.0f;
 		
 		float attackRadius = 80.0f;
 		float nearbyRadius = 30.0f; //must be smaller than attackRadius
+		
+		Vector2 tempVector = new Vector2(0,0);
+		
+		int towerCount = _towers.Count;
 		
 		for(int w = 0; w<_wadCount; w++)
 		{
@@ -118,26 +124,56 @@ public class MGame : FMultiTouchableInterface
 						{
 							//attack enemy
 						}
-						//move away from enemy
-						velocity += new Vector2(0.0001f + x-otherWad.x, y-otherWad.y).normalized;	
+						
+						//push away from enemy
+						tempVector.x = 0.0001f + x-otherWad.x;
+						tempVector.y = y-otherWad.y;
+						tempVector.Normalize();
+						velocity += tempVector;	
 					}
 					else 
 					{
 						//move toward enemy!
 						if(wad.player != otherWad.player)
 						{
-							//attack enemy
-							velocity -= new Vector2(0.0001f + x-otherWad.x, y-otherWad.y).normalized;	
+							tempVector.x = 0.0001f + x-otherWad.x;
+							tempVector.y = y-otherWad.y;
+							tempVector.Normalize();
+							velocity -= tempVector;	
 						}
 					}
 				}
 			}
 			
+			
+			for(int t = 0; t<towerCount; t++)
+			{
+				MTower tower = _towers[t];	
+				float dx = Math.Abs(tower.x - x);
+				if(dx > attackRadius) continue;
+				float dy = Math.Abs(tower.y - y);
+				if(dy > attackRadius) continue;
+				
+				int distanceToTower = preCalcSQRTs[(int)(dx*dx + dy*dy)];
+				
+				if(distanceToTower < towerRadius)
+				{
+					tempVector.x = x-tower.x;
+					tempVector.y = y-tower.y;
+					tempVector.Normalize();
+					velocity += tempVector;	
+				}
+			}
+			
+			
 			float distanceToCenter = Mathf.Sqrt(x*x + y*y);
 			
 			if(distanceToCenter > wallRadius)
 			{
-				velocity -= new Vector2(x, y).normalized;		
+				tempVector.x = x;
+				tempVector.y = y;
+				tempVector.Normalize();
+				velocity -= tempVector * 2.0f;	
 			}
 			
 			
@@ -200,8 +236,8 @@ public class MGame : FMultiTouchableInterface
 		
 		float creationAngle = player.angle + player.nextWadCreationAngle;
 		
-		wad.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (player.tower.radius+wad.radius); 
-		wad.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (player.tower.radius+wad.radius); 
+		wad.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+wad.radius); 
+		wad.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+wad.radius); 
 		
 		player.nextWadCreationAngle = (player.nextWadCreationAngle + 30.0f)%360.0f;
 	}

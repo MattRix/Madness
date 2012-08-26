@@ -12,7 +12,15 @@ Circle Radius: 700
 
 
 
+__________
 
+Polish:
+
+- When enemies drop coins, they should tween into your coin pile
+- If a dude is in attack range, he shouldn't bother going to the target until he's done attacking
+- Click and hold to attack... a little circle should scale in for 1 second until the hold is "activated"
+- Tons of little ! above all the frog heads when they get a new attack order? Maybe they just blink or something
+- On screen stats like current wads count, "Wads killed", indicator if you're maxed out, DNA points, etc. Collect DNA!
 
 __________
 

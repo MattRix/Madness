@@ -216,7 +216,6 @@ public class Futile : MonoBehaviour
 		touchManager.Update();
 		if(SignalUpdate != null) SignalUpdate();
 		
-		
 		for(int s = 0; s<_stages.Count; s++)
 		{
 			_stages[s].Redraw (false,_isDepthChangeNeeded);
