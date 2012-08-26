@@ -33,6 +33,15 @@ public class MGame : FMultiTouchableInterface
 	
 	private MPlayer _winningPlayer = null;
 	
+	public FContainer hudLayer;
+	
+	private FLabel _dnaLabel;
+	private FLabel[] _playerLabels;
+	private FLabel _beastLabel;
+	private FLabel _evolutionLabel;
+	
+	
+	
 	public MGame(MInGamePage page)
 	{
 		instance = this;
@@ -49,36 +58,56 @@ public class MGame : FMultiTouchableInterface
 		
 		CreateTowers();
 		
+		
 		container.AddChild(_beastContainer = new FContainer());
 		container.AddChild(_beastContainerSpecial = new FContainer());
 		
 		container.AddChild(effectLayer = new MEffectLayer());
 		
+		container.AddChild(hudLayer = new FContainer());
+		
+		CreateUI();
+		
 		Futile.instance.SignalUpdate += HandleUpdate;
 		Futile.touchManager.AddMultiTouchTarget(this);
 		
-		FLabel infoLabel = new FLabel("Cubano","CLICK TO MOVE THE GREEN GUYS!\nDESTROY THEIR MOTHER-CELLS!\nEVOLVE BY USING DNA!");
-
-		container.AddChild(infoLabel);
+		ShowNote("CLICK TO MOVE THE GREEN GUYS!\nDESTROY THE ENEMY CELLS!\nEVOLVE BY USING DNA!",10.0f);
+	}
+	
+	private void CreateUI()
+	{
+		hudLayer.AddChild(_dnaLabel = new FLabel("Cubano", "0&"));
+		_dnaLabel.anchorX = 1.0f;
+		_dnaLabel.anchorY = 1.0f;
+		_dnaLabel.x = Futile.screen.halfWidth - 3.0f;
+		_dnaLabel.y = Futile.screen.halfHeight - 3.0f;
 		
-		infoLabel.scale = 0.8f;
+		hudLayer.AddChild(_beastLabel = new FLabel("Cubano", "30/80 BEASTS (MAXED)"));
+		_beastLabel.scale = 0.5f;
+		_beastLabel.anchorX = 1.0f;
+		_beastLabel.anchorY = 0.0f;
+		_beastLabel.x = Futile.screen.halfWidth - 3.0f;
+		_beastLabel.y = -Futile.screen.halfHeight + 3.0f + 18.0f;
 		
-		Go.to (infoLabel,10.0f,new TweenConfig().floatProp("scale",1.0f).onComplete(HandleInfoBuildComplete));
+		hudLayer.AddChild(_evolutionLabel = new FLabel("Cubano", "4/100 EVOLUTIONS"));
+		_evolutionLabel.scale = 0.5f;
+		_evolutionLabel.anchorX = 1.0f;
+		_evolutionLabel.anchorY = 0.0f;
+		_evolutionLabel.x = Futile.screen.halfWidth - 3.0f;
+		_evolutionLabel.y = -Futile.screen.halfHeight + 3.0f;
+		
 	}
 
 	public void AddDNA (int amount)
 	{
 		_human.dna += amount;
+		_dnaLabel.text = _human.dna + "&";
 	}
 	
 	public void RemoveDNA (int amount)
 	{
 		_human.dna -= amount;
-	}
-	
-	private void HandleInfoBuildComplete(AbstractTween tween)
-	{
-		container.RemoveChild(((tween as Tween).target as FLabel));	
+		_dnaLabel.text = _human.dna + "&";
 	}
 	
 	public void Destroy()
@@ -490,20 +519,29 @@ public class MGame : FMultiTouchableInterface
 			_winningPlayer = remainingPlayer;
 			
 			FLabel winLabel;
+			
 			if(_winningPlayer.isHuman)
 			{
-				winLabel = new FLabel("Cubano","YOU WIN!");
+				winLabel  = new FLabel("Cubano","YOU WIN!");
 			}
 			else 
 			{
-				winLabel = new FLabel("Cubano","YOU LOSE!");
+				winLabel  = new FLabel("Cubano","YOU LOSE!");
 			}
 			
 			container.AddChild(winLabel);
-			
+		
 			winLabel.scale = 0.8f;
-			
+		
 			Go.to (winLabel,6.0f,new TweenConfig().floatProp("scale",1.0f).onComplete(HandleWinComplete));
+		}
+		else if(player.isHuman)
+		{
+			ShowNote("YOU LOSE!\nPRESS BACK TO TRY AGAIN", 5.0f);
+		}	
+		else 
+		{
+			ShowNote (player.name.ToUpper()+" WAS ELIMINATED!", 5.0f);
 		}
 		
 	}
@@ -512,6 +550,23 @@ public class MGame : FMultiTouchableInterface
 	{
 		page.ShowWinForPlayer(_winningPlayer, _players);
 	}
+	
+	private void ShowNote(string message, float duration)
+	{
+		FLabel noteLabel = new FLabel("Cubano",message);
+			
+		noteLabel.scale = 0.8f;
+			
+		container.AddChild(noteLabel);
+			
+		Go.to (noteLabel,duration,new TweenConfig().floatProp("scale",1.0f).onComplete (HandleNoteComplete));
+	}
+	
+	private void HandleNoteComplete(AbstractTween tween)
+	{
+		((tween as Tween).target as FLabel).RemoveFromContainer();
+	}
+	
 	
 	public void SetAttackTarget(MPlayer player, Vector2 targetPosition)
 	{

@@ -23,7 +23,7 @@ public class MEffectLayer : FContainer
 		
 		coin.scale = 1.0f;
 		
-		Go.to (coin,0.8f,new TweenConfig().floatProp("x",100).floatProp("y",100).onComplete(HandleDNAComplete));
+		Go.to (coin,0.8f,new TweenConfig().floatProp("x",Futile.screen.halfWidth-30.0f).floatProp("y",Futile.screen.halfHeight-30.0f).onComplete(HandleDNAComplete));
 		Go.to (coin,0.3f,new TweenConfig().floatProp("scale",0.3f).setDelay(0.5f));
 	}
 	
