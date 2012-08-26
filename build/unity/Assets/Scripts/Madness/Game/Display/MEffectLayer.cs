@@ -21,7 +21,7 @@ public class MEffectLayer : FContainer
 		crosshair.x = position.x;
 		crosshair.y = position.y;
 		
-		Go.to (crosshair,1.0f,new TweenConfig().floatProp("alpha", 0.0f).onComplete(HandleCrosshairComplete));
+		Go.to (crosshair,0.2f,new TweenConfig().setDelay(0.1f).floatProp("alpha", 0.0f).onComplete(HandleCrosshairComplete));
 		
 	}
 	
