@@ -7,11 +7,14 @@ public class MGame : FMultiTouchableInterface
 {
 	public static MGame instance;
 	
+	public static Color colorWhite = Color.white;
+	public static Color colorRed = new Color(0.65f,0.0f,0.0f,1.0f);
 	public FContainer container;
 	
 	public MEffectLayer effectLayer;
 	
 	private FContainer _beastContainer;
+	private FContainer _beastContainerSpecial;
 	
 	private List<MPlayer> _players = new List<MPlayer>();
 	private MPlayer _human;
@@ -22,6 +25,7 @@ public class MGame : FMultiTouchableInterface
 	
 	public int frameCount = 0;
 	
+	private List<MBeast>_beastsThatDied = new List<MBeast>(20);
 	
 	public MGame(FContainer container)
 	{
@@ -39,6 +43,7 @@ public class MGame : FMultiTouchableInterface
 		CreateTowers();
 		
 		container.AddChild(_beastContainer = new FContainer());
+		container.AddChild(_beastContainerSpecial = new FContainer());
 		
 		container.AddChild(effectLayer = new MEffectLayer());
 		
@@ -129,16 +134,19 @@ public class MGame : FMultiTouchableInterface
 				{
 					if(distance < nearbyRadius)
 					{
-						if(!beast.isAttacking && beast.player != otherBeast.player)
+						if(beast.player != otherBeast.player)
 						{
-							//attack enemy
-							beast.isAttacking = true;
-							beast.attackTarget = otherBeast;
-							beast.attackFrame = 0;
+							if(!beast.isAttacking)
+							{
+								//attack enemy
+								beast.isAttacking = true;
+								beast.attackTarget = otherBeast;
+								beast.attackFrame = 0;
+							}
 							
 							//face the enemy you're attacking!
-							float faceEnemyRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
-							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.05f;
+							float faceEnemyRotation = -Mathf.Atan2(dy, dx) * RXMath.RTOD + 90.0f;
+							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
 						} 
 						
 						//push away from other beast
@@ -149,17 +157,19 @@ public class MGame : FMultiTouchableInterface
 					} 
 					else if(distance < nearbyRadius + 4.0f) //fudge area, not too close or to far
 					{
-						if(!beast.isAttacking && beast.player != otherBeast.player)
+						if(beast.player != otherBeast.player)
 						{
-							//attack enemy
-							beast.attackFrame = 0;
-							beast.isAttacking = true;
-							beast.attackTarget = otherBeast;
+							if(!beast.isAttacking)
+							{
+								//attack enemy
+								beast.attackFrame = 0;
+								beast.isAttacking = true;
+								beast.attackTarget = otherBeast;
+							}
 							
 							//face the enemy you're attacking!
-							float faceEnemyRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
-							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.05f;
-			
+							float faceEnemyRotation = -Mathf.Atan2(dy, dx) * RXMath.RTOD + 90.0f;
+							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
 						}
 					}
 					else 
@@ -181,12 +191,41 @@ public class MGame : FMultiTouchableInterface
 				if(isFrameEven) beast.attackFrame ++; //only increment every other frame
 				if(beast.attackFrame == 5)
 				{
+					MBeast attackTarget = beast.attackTarget;
 					beast.attackFrame++;
 					//Do the attack!
 					//beast.attackTarget.hit();
 					
-					effectLayer.ShowCrosshairForPlayer(beast.player, new Vector2(beast.attackTarget.x,beast.attackTarget.y));
-					
+					if(attackTarget != null && attackTarget.isEnabled)
+					{
+						
+						if(attackTarget.health > 0)
+						{
+							float damage = Math.Max(1.0f, beast.offence - attackTarget.defence); //damage must be at least 1
+							attackTarget.health -= damage;
+							
+							if(attackTarget.health <= 0)
+							{
+								if(!_beastsThatDied.Contains(attackTarget))
+								{
+									_beastsThatDied.Add(attackTarget);	
+								}
+							}
+							
+							attackTarget.sprite.shader = FShader.AdditiveColor;
+							attackTarget.sprite.color = attackTarget.player.color.attackRedColor;
+							_beastContainerSpecial.AddChild (attackTarget);
+							attackTarget.blinkFrame = 7;
+						}
+						
+						//this will make the attack graphic show on the closest side of the beast
+						tempVector.x = attackTarget.x-x;
+						tempVector.y = attackTarget.y-y;
+						tempVector.Normalize();
+						tempVector *= -10.0f;  
+						
+						effectLayer.ShowAttackMarkForPlayer(beast.player, new Vector2(attackTarget.x+tempVector.x,attackTarget.y+tempVector.y));
+					}
 					
 					beast.attackTarget = null;
 				}
@@ -245,16 +284,6 @@ public class MGame : FMultiTouchableInterface
 			}
 			
 			
-			//MATCH VECTOR WITH FRIENDS?
-			//PUSH FROM TOWER
-			//PUSH FROM WALL
-			//PULL TOWARDS ENEMIES
-			//PUSH FROM TOO-CLOSE ENEMIES
-			//PUSH FROM TOO-CLOSE FRIENDS
-			//TURN TOWARDS CLOSEST ENEMY
-			//ATTACK CLOSE ENEMY
-			//APPLY VELOCITY
-			
 			//apply half the velocity 
 			beast.x += velocity.x * 0.5f;
 			beast.y += velocity.y * 0.5f;
@@ -268,16 +297,48 @@ public class MGame : FMultiTouchableInterface
 			velocity.x *= 0.55f;
 			velocity.y *= 0.55f;
 			
-			float moveAmount = 20.0f*Mathf.Abs(velocity.x*velocity.y) + Math.Abs (deltaRotation);
+			float moveAmount = Math.Min(1.5f, 20.0f*Mathf.Abs(velocity.x*velocity.y)) + Math.Abs (deltaRotation);
 			
 			beast.velocity = velocity;
 			
 			beast.AdvanceFrame(moveAmount);
 			
-			if(beast.scale < 1.0f)
+			if(beast.blinkFrame > 0)
+			{
+				beast.blinkFrame--;
+				if(beast.blinkFrame == 0) //put it back to normal
+				{
+					beast.sprite.shader = FShader.Normal;
+					beast.sprite.color = colorWhite;
+					_beastContainer.AddChild(beast);
+				}
+			}
+
+			
+			//make it scale in
+			if(beast.scale < 1.0f) 
 			{
 				beast.scale += 0.025f;	
 			}
+		}
+		
+		int diedCount = _beastsThatDied.Count;
+		
+		for(int d = 0; d<diedCount; d++)
+		{ 
+			MBeast beast = _beastsThatDied[d];
+			if(beast.isEnabled)
+			{
+				effectLayer.ShowBeastExplosionForBeast(beast);
+				RemoveBeast(beast);
+			}
+		}
+		
+		_beastsThatDied.Clear();
+		
+		if(frameCount % 600 == 0)
+		{
+			SetAttackTarget(_players[2], new Vector2(_towers[1].x,_towers[1].y));
 		}
 		
 		frameCount++;
@@ -301,32 +362,26 @@ public class MGame : FMultiTouchableInterface
 		if(player.isHuman) effectLayer.ShowCrosshairForPlayer(player, targetPosition);
 	}
 	
-	public MBeast GetNewBeast()
-	{
-		MBeast beast = (MBeast.pool.Count == 0) ? new MBeast() : MBeast.pool.Pop();
-		
-		_beastContainer.AddChild(beast);
-		return beast; 
-	}
-	
 	public void CreateBeast(MPlayer player)
 	{
 		if(player.beasts.Count >= player.maxBeasts) return; //TODO: Show a "max beasts limit reached!" indicator on screen
 		
-		MBeast beast = GetNewBeast();
+		MBeast beast = MBeast.New();
+		if(beast.container != _beastContainer) _beastContainer.AddChild(beast);
 		beast.Start(player);
-		_beastContainer.AddChild(beast);
+		
 		if(_beasts.Length <= _beastCount)
 		{
 			Array.Resize(ref _beasts,_beastCount+20);	
 		}
+		
 		_beasts[_beastCount++] = beast; 
 		player.beasts.Add(beast);
 		
 		float creationAngle = player.angle + player.nextBeastCreationAngle;
 		
-		beast.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+beast.radius); 
-		beast.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+beast.radius); 
+		beast.x = player.tower.x + Mathf.Sin (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+20.0f); 
+		beast.y = player.tower.y + Mathf.Cos (creationAngle*RXMath.DTOR) * (MConfig.TOWER_RADIUS+20.0f); 
 		
 		player.nextBeastCreationAngle = (player.nextBeastCreationAngle + 30.0f)%360.0f;
 	} 
@@ -334,10 +389,20 @@ public class MGame : FMultiTouchableInterface
 	public void RemoveBeast(MBeast beastToRemove)
 	{
 		beastToRemove.Destroy();
-		_beasts.RemoveItem(beastToRemove, ref _beastCount);
+		_beasts.RemoveItem(beastToRemove, ref _beastCount); 
+		
+		//put it back in the right container
+		if(beastToRemove.container == _beastContainerSpecial)
+		{
+			beastToRemove.sprite.shader = FShader.Normal;
+			_beastContainerSpecial.RemoveChild(beastToRemove);
+		}
 		
 		beastToRemove.player.beasts.Remove(beastToRemove); 
-		MBeast.pool.Add (beastToRemove);
+		
+		//don't pool because it could cause problems
+		beastToRemove.RemoveFromContainer();
+		//MBeast.pool.Add (beastToRemove);
 	}
 	
 	

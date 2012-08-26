@@ -31,18 +31,21 @@ public class MBeastType
 public class MBeast : FContainer
 {
 	public static List<MBeast> pool = new List<MBeast>();
+
+	public static MBeast New ()
+	{
+		return (pool.Count == 0) ? new MBeast() : pool.Pop();
+	}
 	
 	public static MBeastElementSet[] _elementSets;
 	
 	private MBeastElementSet _elementSet;
 	
-	public float radius = 20.0f;
+	private bool _isEnabled = false;
 	
 	public MPlayer player;
 	
-	private FSprite _sprite;
-	
-	private bool _isEnabled = false;
+	public FSprite sprite;
 	
 	public Vector2 velocity;
 	
@@ -59,6 +62,12 @@ public class MBeast : FContainer
 	public bool isAttacking;
 	public MBeast attackTarget;
 	public int attackFrame;
+	
+	public float defence;
+	public float offence;
+	public float health;
+	
+	public int blinkFrame;
 	
 	public static void Init()
 	{
@@ -106,8 +115,7 @@ public class MBeast : FContainer
 	
 	public MBeast()
 	{
-		AddChild(_sprite = new FSprite(_elementSets[0].walkElements[0].name));
-		//_sprite.shader = FShader.AdditiveColor;
+		AddChild(sprite = new FSprite(_elementSets[0].walkElements[0].name));
 	}
 	
 	
@@ -115,12 +123,12 @@ public class MBeast : FContainer
 	{
 		if(isAttacking)
 		{
-			_sprite.element = _elementSet.attackElements[attackFrame];
+			sprite.element = _elementSet.attackElements[attackFrame];
 		}
 		else 
 		{
 			_advanceCount += amount;
-			_sprite.element = _elementSet.walkElements[(int)_advanceCount%19];
+			sprite.element = _elementSet.walkElements[(int)_advanceCount%19];
 		}
 	}
 	
@@ -136,11 +144,17 @@ public class MBeast : FContainer
 		attackTarget = null;
 		isAttacking = false;
 		attackFrame = 0;
+		blinkFrame = 0;
+		
+		defence = 1.0f;
+		offence = 1.0f;
+		health = 10.0f;
 		
 		_advanceCount = 0;
 		
 		_elementSet = _elementSets[player.color.index*MBeastType.beastTypes.Length + beastType.index];
-		_sprite.element = _elementSet.walkElements[0];
+		sprite.element = _elementSet.walkElements[0];
+		sprite.color = MGame.colorWhite;
 		
 		this.scale = 0.0f;
 		
@@ -164,12 +178,11 @@ public class MBeast : FContainer
 				
 				if(_isEnabled)
 				{
-					_sprite.isVisible = true;	
+					sprite.isVisible = true;	
 				}
 				else
 				{
-					_sprite.isVisible = false;	
-					
+					sprite.isVisible = false;	
 				}
 			}
 		}

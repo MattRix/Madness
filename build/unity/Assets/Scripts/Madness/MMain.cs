@@ -42,6 +42,7 @@ public class MMain : MonoBehaviour
 		Futile.atlasManager.LoadFont("Cubano","Cubano"+Futile.resourceSuffix+".png", "Atlases/Cubano"+Futile.resourceSuffix);
 		
 		MBeast.Init(); //sets up the MBeast animation elements
+		MExplosion.Init(); //sets up the explosion elements
 		
 		GoToPage(MPageType.TitlePage);
 	}

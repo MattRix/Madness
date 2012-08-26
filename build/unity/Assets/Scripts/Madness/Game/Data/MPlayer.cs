@@ -20,7 +20,7 @@ public class MPlayer
 	
 	public float nextBeastCreationAngle = 0.0f;
 	
-	public List<MBeast> beasts = new List<MBeast>();
+	public List<MBeast> beasts = new List<MBeast>(200);
 	
 	public MPlayer(int index, bool isHuman, string name, MColor color)
 	{
