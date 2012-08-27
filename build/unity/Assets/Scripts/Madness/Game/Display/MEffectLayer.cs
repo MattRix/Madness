@@ -51,6 +51,7 @@ public class MEffectLayer : FContainer
 	//TODO: use something other than GoTween to do this... seems really overkill for something that happens ALL the time
 	public void ShowAttackMarkForPlayer(MPlayer player, Vector2 position)
 	{
+		if(RXRandom.Float() < 0.5f) FSoundManager.PlaySound("AttackHit",1.0f);
 		FSprite attackMark = _attackMarks[_nextAttackMarkIndex];
 		attackMark.color = player.color.addColor;
 		
@@ -139,6 +140,7 @@ public class MEffectLayer : FContainer
 	
 	public void ShowCrosshairForPlayer(MPlayer player, Vector2 position)
 	{
+		FSoundManager.PlaySound("SetTarget",0.4f);
 		FSprite crosshair = new FSprite("Crosshair.png");
 		crosshair.shader = FShader.Additive;
 		crosshair.color = player.color.color;

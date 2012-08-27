@@ -33,7 +33,7 @@ public class MInGamePage : MPage
 		_background = new FSprite("Background.png");
 		AddChild(_background);
 		
-		_backButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "ClickSound");
+		_backButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "Click");
 		_backButton.AddLabel("Cubano","BACK!",Color.white);
 		AddChild (_backButton);
 		

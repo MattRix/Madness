@@ -140,6 +140,8 @@ public class MPlayer
 			{
 				leapLevel = newLeapLevel;
 				
+				FSoundManager.PlaySound("EvolutionaryLeap",1.0f);
+				
 				if(currentStatTotal == statTotal)
 				{
 					if(isHuman) MGame.instance.ShowNote("MAX EVOLVED!", 3.0f);

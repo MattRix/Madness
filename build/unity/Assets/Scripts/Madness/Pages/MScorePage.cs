@@ -30,7 +30,7 @@ public class MScorePage : MPage
 		_background = new FSprite("Background.png");
 		AddChild(_background);
 		
-		_againButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "ClickSound");
+		_againButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "Click");
 		_againButton.AddLabel("Cubano","AGAIN!",Color.white);
 		AddChild (_againButton);
 		

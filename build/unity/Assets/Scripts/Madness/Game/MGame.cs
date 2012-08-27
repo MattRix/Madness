@@ -135,6 +135,7 @@ public class MGame : FMultiTouchableInterface
 		
 		if(player.isHuman)
 		{
+			FSoundManager.PlaySound("GetMoney",1.0f);
 			_dnaLabel.text = _human.dna + "&";
 			for(int s = 0; s<player.stats.Length; s++)
 			{
@@ -519,6 +520,7 @@ public class MGame : FMultiTouchableInterface
 				effectLayer.ShowBeastExplosionForBeast(beast);
 				RemoveBeast(beast);
 				if(beast.player.isHuman) beast.player.isDirty = true;
+				FSoundManager.PlaySound("BeastExplode",1.0f);
 			}
 		}
 		
@@ -528,6 +530,7 @@ public class MGame : FMultiTouchableInterface
 		{
 			MTower destroyedTower = _towersThatWereDestroyed[t];
 			KillPlayer(destroyedTower.player);
+			FSoundManager.PlaySound("BaseExplode",1.0f);
 		}
 		
 		_towersThatWereDestroyed.Clear ();
@@ -601,10 +604,12 @@ public class MGame : FMultiTouchableInterface
 			if(_winningPlayer.isHuman)
 			{
 				winLabel  = new FLabel("Cubano","YOU WIN!");
+				FSoundManager.PlaySound("WinGame",1.0f);
 			}
 			else 
 			{
 				winLabel  = new FLabel("Cubano","YOU LOSE!");
+				FSoundManager.PlaySound("LoseGame",1.0f);
 			}
 			
 			container.AddChild(winLabel);
@@ -613,15 +618,18 @@ public class MGame : FMultiTouchableInterface
 		
 			Go.to (winLabel,6.0f,new TweenConfig().floatProp("scale",1.0f).onComplete(HandleWinComplete));
 			page.backButton.label.text = "AGAIN?";
+			
 		}
 		else if(player.isHuman)
 		{
 			ShowNote("YOU LOSE!\nPRESS BACK TO TRY AGAIN", 5.0f);
 			page.backButton.label.text = "AGAIN?";
+			FSoundManager.PlaySound("LoseGame",1.0f);
 		}	
 		else 
 		{
 			ShowNote (player.name.ToUpper()+" WAS ELIMINATED!", 5.0f);
+			FSoundManager.PlaySound("LoseGame",1.0f);
 		}
 		
 	}

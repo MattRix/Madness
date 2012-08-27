@@ -36,6 +36,7 @@ public class MStatView : FContainer
 	{
 		if(stat.CanBuy())
 		{
+			FSoundManager.PlaySound("LevelUp",1.0f);
 			stat.Buy();
 		}
 	}

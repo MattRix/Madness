@@ -35,7 +35,7 @@ public class MTitlePage : MPage
 		_logo.y -= 10;
 		AddChild(_logo);
 		
-		_startButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "ClickSound");
+		_startButton = new FButton("CircleButtonBG_normal.png", "CircleButtonBG_over.png", "Click");
 		_startButton.AddLabel("Cubano","START!",Color.white);
 		
 		_startButton.x = 0;
