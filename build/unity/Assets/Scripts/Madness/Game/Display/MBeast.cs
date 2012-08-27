@@ -179,7 +179,7 @@ public class MBeast : FContainer
 		defence = 1.0f + (float)player.statDefence.amount * 0.20f;
 		offence = 1.0f + (float)player.statAttack.amount * 0.15f;
 		health = 12.0f + (float)player.statHealth.amount*5.0f;
-		speed = 2.2f + 5.5f*((float)player.statSpeed.amount/(float)player.statSpeed.max);
+		speed = 2.8f + 5.0f*((float)player.statSpeed.amount/(float)player.statSpeed.max);
 	}
 	
 	public void Destroy()
