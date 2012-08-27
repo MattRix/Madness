@@ -1,0 +1,2 @@
+TexturePacker BackgroundPacker_Scale4.tps
+TexturePacker GamePacker_Scale4.tps

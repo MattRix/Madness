@@ -1,19 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\Futile\Extras\FSoundManager.cs">
-    <Files>
-      <File FileName="Assets\Plugins\Futile\Extras\FSoundManager.cs" Line="26" Column="3" />
-      <File FileName="Assets\Scripts\Madness\Game\MGame.cs" Line="57" Column="23" />
-      <File FileName="Assets\Scripts\Madness\Game\Display\MBeast.cs" Line="180" Column="37" />
-      <File FileName="Assets\Scripts\Madness\Game\Display\MTower.cs" Line="18" Column="4" />
-      <File FileName="Assets\Scripts\Madness\Game\Data\MPlayerAI.cs" Line="18" Column="42" />
-      <File FileName="Assets\Scripts\Madness\Game\Data\MConfig.cs" Line="13" Column="1" />
-      <File FileName="Assets\Scripts\Madness\MMain.cs" Line="21" Column="22" />
-      <File FileName="Assets\Scripts\Madness\Game\Display\MStatView.cs" Line="44" Column="50" />
-      <File FileName="Assets\Scripts\Madness\Game\Data\MPlayer.cs" Line="143" Column="5" />
-      <File FileName="Assets\Scripts\Madness\Game\Display\MEffectLayer.cs" Line="59" Column="29" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -31,6 +31,9 @@ public class MMain : MonoBehaviour
 		
 		fparams.AddResolutionLevel(512.0f,	0.5f,	1.0f,	"_Scale2"); //Unity Editor
 		fparams.AddResolutionLevel(1024.0f,	1.0f,	1.0f,	"_Scale2"); //iPhone retina
+		#if UNITY_IPHONE
+		fparams.AddResolutionLevel(2048.0f,	2.0f,	2.0f,	"_Scale4"); //iPad retina
+		#endif
 		
 		fparams.origin = new Vector2(0.5f,0.5f);
 		
