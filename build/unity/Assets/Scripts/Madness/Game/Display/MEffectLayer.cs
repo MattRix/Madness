@@ -5,25 +5,83 @@ using System.Collections.Generic;
 
 public class MEffectLayer : FContainer
 {
+	private int _nextAttackMarkIndex = 0;
+	private int _attackMarkCount = 30;
+	private FSprite[] _attackMarks;
 		
 	public MEffectLayer()
 	{
+		_attackMarks = new FSprite[_attackMarkCount];
+		for(int a = 0; a<_attackMarkCount; a++)
+		{
+			FSprite attackMark = new FSprite("AttackMark.png");
+			attackMark.shader = FShader.Additive;
+			attackMark.alpha = 0.0f;
+			
+			AddChild(attackMark);
+			_attackMarks[a] = attackMark;
+		}
+	}
 	
+	override public void HandleAddedToStage()
+	{
+		Futile.instance.SignalUpdate += HandleUpdate;
+		base.HandleAddedToStage();	
+	}
+	
+	override public void HandleRemovedFromStage()
+	{
+		Futile.instance.SignalUpdate -= HandleUpdate;
+		base.HandleRemovedFromStage();	
+	}
+	
+	private void HandleUpdate()
+	{
+		for(int a = 0; a<_attackMarkCount; a++)
+		{
+			FSprite attackMark = _attackMarks[a];
+			
+			if(attackMark.alpha > 0.0f)
+			{
+				attackMark.alpha -= 0.05f;	
+			}
+		}
+	}
+	
+	//TODO: use something other than GoTween to do this... seems really overkill for something that happens ALL the time
+	public void ShowAttackMarkForPlayer(MPlayer player, Vector2 position)
+	{
+		FSprite attackMark = _attackMarks[_nextAttackMarkIndex];
+		attackMark.color = player.color.addColor;
+		
+		attackMark.x = position.x;
+		attackMark.y = position.y;
+		
+		attackMark.alpha = 1.0f;
+		
+		_nextAttackMarkIndex = (_nextAttackMarkIndex+1)%_attackMarkCount;
 	}
 
-	public void CreateDNA (Vector2 position, int amount)
+	
+	
+
+	public void CreateDNA (MPlayer player, Vector2 position)
 	{
 		FSprite coin = new FSprite("Coin.png");
+		
 		coin.shader = FShader.Additive;
+		coin.color = player.color.color;
 		
 		AddChild(coin);
+		
 		coin.x = position.x;
 		coin.y = position.y;
-		coin.data = amount;
+		coin.data = player;
 		
 		coin.scale = 1.0f;
+		coin.alpha = 0.1f;
 		
-		Go.to (coin,0.8f,new TweenConfig().floatProp("x",Futile.screen.halfWidth-30.0f).floatProp("y",Futile.screen.halfHeight-30.0f).onComplete(HandleDNAComplete));
+		Go.to (coin,0.8f,new TweenConfig().floatProp("alpha", 1.0f).floatProp("x",player.tower.x).floatProp("y",player.tower.y).onComplete(HandleDNAComplete));
 		Go.to (coin,0.3f,new TweenConfig().floatProp("scale",0.3f).setDelay(0.5f));
 	}
 	
@@ -31,7 +89,7 @@ public class MEffectLayer : FContainer
 	{
 		FSprite coin = (tween as Tween).target as FSprite;
 		coin.RemoveFromContainer();
-		MGame.instance.AddDNA((int) coin.data);
+		MGame.instance.AddDNA(coin.data as MPlayer);
 	}
 
 	public void ShowBeastExplosionForBeast (MBeast beast)
@@ -74,26 +132,6 @@ public class MEffectLayer : FContainer
 	}
 	
 	private void HandleTowerHitComplete(AbstractTween tween)
-	{
-		FSprite sprite = (tween as Tween).target as FSprite;
-		sprite.RemoveFromContainer();
-	}
-	
-	//TODO: use something other than GoTween to do this... seems really overkill for something that happens ALL the time
-	public void ShowAttackMarkForPlayer(MPlayer player, Vector2 position)
-	{
-		FSprite attackMark = new FSprite("AttackMark.png");
-		attackMark.shader = FShader.Additive;
-		attackMark.color = player.color.addColor;
-		
-		AddChild(attackMark);
-		attackMark.x = position.x;
-		attackMark.y = position.y;
-		
-		Go.to (attackMark,0.2f,new TweenConfig().floatProp("alpha", 0.0f).onComplete(HandleAttackMarkComplete));
-	}
-	
-	private void HandleAttackMarkComplete(AbstractTween tween)
 	{
 		FSprite sprite = (tween as Tween).target as FSprite;
 		sprite.RemoveFromContainer();

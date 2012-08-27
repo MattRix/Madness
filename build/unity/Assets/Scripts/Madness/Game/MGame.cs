@@ -40,7 +40,7 @@ public class MGame : FMultiTouchableInterface
 	private FLabel _beastLabel;
 	private FLabel _evolutionLabel;
 	
-	
+	private MStatView[] _statViews;
 	
 	public MGame(MInGamePage page)
 	{
@@ -57,7 +57,6 @@ public class MGame : FMultiTouchableInterface
 		_beasts = new MBeast[_players.Count * (_human.maxBeasts + 20)];
 		
 		CreateTowers();
-		
 		
 		container.AddChild(_beastContainer = new FContainer());
 		container.AddChild(_beastContainerSpecial = new FContainer());
@@ -82,32 +81,77 @@ public class MGame : FMultiTouchableInterface
 		_dnaLabel.x = Futile.screen.halfWidth - 3.0f;
 		_dnaLabel.y = Futile.screen.halfHeight - 3.0f;
 		
-		hudLayer.AddChild(_beastLabel = new FLabel("Cubano", "30/80 BEASTS (MAXED)"));
+		hudLayer.AddChild(_beastLabel = new FLabel("Cubano", "30/80 BEASTS"));
 		_beastLabel.scale = 0.5f;
 		_beastLabel.anchorX = 1.0f;
 		_beastLabel.anchorY = 0.0f;
-		_beastLabel.x = Futile.screen.halfWidth - 3.0f;
+		_beastLabel.x = Futile.screen.halfWidth - 4.0f;
 		_beastLabel.y = -Futile.screen.halfHeight + 3.0f + 18.0f;
 		
 		hudLayer.AddChild(_evolutionLabel = new FLabel("Cubano", "4/100 EVOLUTIONS"));
 		_evolutionLabel.scale = 0.5f;
 		_evolutionLabel.anchorX = 1.0f;
 		_evolutionLabel.anchorY = 0.0f;
-		_evolutionLabel.x = Futile.screen.halfWidth - 3.0f;
+		_evolutionLabel.x = Futile.screen.halfWidth - 4.0f;
 		_evolutionLabel.y = -Futile.screen.halfHeight + 3.0f;
+		
+		_statViews = new MStatView[_human.stats.Length];
+		
+		for(int s = 0; s<_human.stats.Length; s++)
+		{
+			MStatView statView = new MStatView(_human.stats[s]);
+			hudLayer.AddChild(statView);
+			statView.x = Futile.screen.halfWidth - 63.0f;
+			statView.y = Futile.screen.halfHeight - 100.0f - s*75.0f;
+			_statViews[s] = statView;
+		}
+		
+		_playerLabels = new FLabel[_players.Count];
+		
+		for(int p = 0; p<_players.Count; p++)
+		{
+			FLabel playerLabel = new FLabel("Cubano", "TEST");
+			
+			playerLabel.anchorX = 0.0f;
+			playerLabel.anchorY = 0.0f;
+			playerLabel.scale = 0.5f;
+			playerLabel.x = -Futile.screen.halfWidth + 4.0f;
+			playerLabel.y = -Futile.screen.halfHeight + 3.0f + 18.0f*p;
+			hudLayer.AddChild(playerLabel);
+			
+			_playerLabels[p] = playerLabel;
+		}
 		
 	}
 
-	public void AddDNA (int amount)
+	public void AddDNA (MPlayer player)
 	{
-		_human.dna += amount;
-		_dnaLabel.text = _human.dna + "&";
+		player.dna += MConfig.DNA_PER_KILL;
+		
+		if(player.isHuman)
+		{
+			_dnaLabel.text = _human.dna + "&";
+			for(int s = 0; s<player.stats.Length; s++)
+			{
+				_statViews[s].Update();
+			}
+		}
+		
+		
 	}
 	
-	public void RemoveDNA (int amount)
+	public void RemoveDNA (MPlayer player, int amount)
 	{
-		_human.dna -= amount;
-		_dnaLabel.text = _human.dna + "&";
+		player.dna -= amount;
+		
+		if(player.isHuman)
+		{
+			_dnaLabel.text = _human.dna + "&";
+			for(int s = 0; s<player.stats.Length; s++)
+			{
+				_statViews[s].Update();
+			}
+		}
 	}
 	
 	public void Destroy()
@@ -311,7 +355,7 @@ public class MGame : FMultiTouchableInterface
 						{
 							MTower attackTower = beast.attackTower;
 							//tower has 25 defence
-							attackTower.health -= Math.Max(1.0f, beast.offence - 24.0f); //tower always takes 1 damage
+							attackTower.health -= 1.0f; //Math.Max(1.0f, beast.offence - (float)_human.leapThreshold-1.0f); //tower always takes 1 damage, except when damage is maxed
 							attackTower.UpdateHealthPercent();
 							
 							if(attackTower.health <= 0)
@@ -351,14 +395,9 @@ public class MGame : FMultiTouchableInterface
 								{
 									if(!_beastsThatDied.Contains(attackTarget))
 									{
-										if(beastPlayer.isHuman)
-										{
-											effectLayer.CreateDNA(new Vector2(attackTarget.x,attackTarget.y), 1);
-										}
-										else 
-										{
-											beast.player.dna++;	
-										}
+										effectLayer.CreateDNA(beastPlayer, new Vector2(attackTarget.x,attackTarget.y));
+										
+										beastPlayer.AddKill();
 										
 										_beastsThatDied.Add(attackTarget);	
 									}
@@ -466,6 +505,7 @@ public class MGame : FMultiTouchableInterface
 			{
 				effectLayer.ShowBeastExplosionForBeast(beast);
 				RemoveBeast(beast);
+				if(beast.player.isHuman) beast.player.isDirty = true;
 			}
 		}
 		
@@ -475,10 +515,34 @@ public class MGame : FMultiTouchableInterface
 		{
 			MTower destroyedTower = _towersThatWereDestroyed[t];
 			KillPlayer(destroyedTower.player);
-			Debug.Log ("KILL PLAYER DESTROY TOWER ETC");
 		}
 		
 		_towersThatWereDestroyed.Clear ();
+		
+		if(_human.isDirty)
+		{
+			_beastLabel.text = _human.beasts.Count + "/"+_human.maxBeasts+" BEASTS";
+			
+			if(_human.currentStatTotal < _human.statTotal)
+			{
+				_evolutionLabel.text = (_human.currentStatTotal % _human.leapThreshold) + "/"+_human.leapThreshold+" MUTATIONS";
+			}
+			else 
+			{
+				_evolutionLabel.text = "MAX EVOLUTION!";
+			}
+		}
+		
+		for(int p = 0; p<_players.Count; p++)
+		{
+			MPlayer player = _players[p];
+			if(player.isDirty)
+			{
+				player.isDirty = false;
+				_playerLabels[p].text = player.name.ToUpper()+": "+((int)player.tower.health)+" HP ("+player.totalKills+" KILLS)";	
+			} 
+		}
+		
 		
 
 		frameCount++;
@@ -551,7 +615,7 @@ public class MGame : FMultiTouchableInterface
 		page.ShowWinForPlayer(_winningPlayer, _players);
 	}
 	
-	private void ShowNote(string message, float duration)
+	public void ShowNote(string message, float duration)
 	{
 		FLabel noteLabel = new FLabel("Cubano",message);
 			

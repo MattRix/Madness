@@ -141,8 +141,6 @@ public class MBeast : FContainer
 		hasTarget = false;
 		target = new Vector2(0,0);
 		velocity = new Vector2(0,0);
-		speed = 10.0f;
-		beastType = MBeastType.A;
 		attackTarget = null;
 		attackTower = null;
 		isAttacking = false;
@@ -150,9 +148,23 @@ public class MBeast : FContainer
 		attackFrame = 0;
 		blinkFrame = 0;
 		
-		defence = 1.0f;
-		offence = 1.0f;
-		health = 10.0f;
+		if(player.leapLevel < 1)
+		{
+			beastType = MBeastType.A;
+		}
+		else if(player.leapLevel < 2)
+		{
+			beastType = MBeastType.B;
+		}
+		else
+		{
+			beastType = MBeastType.C;
+		}
+		
+		defence = 1.0f + player.statDefence.amount;
+		offence = 1.0f + player.statAttack.amount;
+		health = 15.0f + player.statHealth.amount*10;
+		speed = 1.7f + 9.0f*(player.statSpeed.amount/player.statSpeed.max);
 		
 		_advanceCount = 0;
 		

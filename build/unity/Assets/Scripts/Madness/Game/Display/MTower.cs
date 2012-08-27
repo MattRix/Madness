@@ -41,5 +41,6 @@ public class MTower : FContainer
 	{
 		int healthFrame = (int) Math.Max(0,Math.Min(9,Mathf.Floor((1.0f-(health/maxHealth))*10.0f)));
 		_sprite.element = _towerElements[healthFrame];
+		player.HandleTowerHit();
 	}
 }
