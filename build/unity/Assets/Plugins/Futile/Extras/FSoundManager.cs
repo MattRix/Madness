@@ -45,8 +45,6 @@ public class FSoundManager
 			_soundClips[fullPath] = soundClip;
 		}
 		
-		Debug.Log ("Playing " + resourceName);
-		
 		_soundSource.PlayOneShot(soundClip, volume);
 	}
 

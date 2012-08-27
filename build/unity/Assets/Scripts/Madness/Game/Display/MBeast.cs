@@ -176,10 +176,10 @@ public class MBeast : FContainer
 	
 	public void UpdateStats()
 	{
-		defence = 1.0f + (float)player.statDefence.amount * 0.04f;
+		defence = 1.0f + (float)player.statDefence.amount * 0.025f;
 		offence = 1.0f + (float)player.statAttack.amount * 0.025f;
-		health = 12.0f + (float)player.statHealth.amount*1.0f;
-		speed = 2.8f + 5.0f*((float)player.statSpeed.amount/(float)player.statSpeed.max);
+		health = 6.0f + (float)player.statHealth.amount*0.3f;
+		speed = 3.5f + 7.5f*((float)player.statSpeed.amount/(float)player.statSpeed.max);
 	}
 	
 	public void Destroy()

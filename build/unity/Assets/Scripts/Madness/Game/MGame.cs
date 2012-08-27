@@ -131,7 +131,7 @@ public class MGame : FMultiTouchableInterface
 
 	public void AddDNA (MPlayer player)
 	{
-		player.dna += MConfig.DNA_PER_KILL;
+		player.dna += MConfig.DNA_PER_KILL*(player.leapLevel+1);
 		
 		if(player.isHuman)
 		{

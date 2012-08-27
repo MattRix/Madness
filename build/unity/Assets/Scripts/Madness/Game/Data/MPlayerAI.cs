@@ -54,7 +54,7 @@ public class MPlayerAI
 			{
 				MGame.instance.SetAttackTarget(player, new Vector2(0, 0));
 			}
-			else if(player.beasts.Count < 10) //regroup at home base
+			else if(player.beasts.Count < 25) //regroup at home base
 			{
 				MGame.instance.SetAttackTarget(player, new Vector2(player.tower.x, player.tower.y));
 			}
