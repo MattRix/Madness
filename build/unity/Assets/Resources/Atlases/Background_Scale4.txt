@@ -2,19 +2,19 @@
 
 "Background.png":
 {
-	"frame": {"x":3,"y":3,"w":1024,"h":768},
+	"frame": {"x":3,"y":3,"w":2048,"h":1536},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":1024,"h":768},
-	"sourceSize": {"w":1024,"h":768}
+	"spriteSourceSize": {"x":0,"y":0,"w":2048,"h":1536},
+	"sourceSize": {"w":2048,"h":1536}
 }},
 "meta": {
 	"app": "http://www.texturepacker.com",
 	"version": "1.0",
 	"image": "Background_Scale4.png",
 	"format": "RGBA8888",
-	"size": {"w":2048,"h":1024},
+	"size": {"w":4096,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c61447f99fcc8755cb25128051c6ce37$"
+	"smartupdate": "$TexturePacker:SmartUpdate:185121c9ea804931b54845d564d559c9$"
 }
 }
