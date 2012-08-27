@@ -20,7 +20,7 @@ public class MTower : FContainer
 	
 	public MPlayer player;
 	
-	public float maxHealth = 700.0f;
+	public float maxHealth = 250.0f;
 	public float health;
 	
 	private FSprite _sprite;

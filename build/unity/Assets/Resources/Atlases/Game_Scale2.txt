@@ -58,7 +58,7 @@
 },
 "0_0/Beast_attacking_7.png":
 {
-	"frame": {"x":729,"y":748,"w":34,"h":35},
+	"frame": {"x":729,"y":747,"w":34,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":1,"w":34,"h":35},
@@ -194,7 +194,7 @@
 },
 "0_1/Beast_attacking_4.png":
 {
-	"frame": {"x":763,"y":670,"w":36,"h":35},
+	"frame": {"x":763,"y":669,"w":36,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":1,"w":36,"h":35},
@@ -458,7 +458,7 @@
 },
 "0_2/Beast_walking_7.png":
 {
-	"frame": {"x":824,"y":470,"w":38,"h":37},
+	"frame": {"x":824,"y":469,"w":38,"h":37},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":37},
@@ -474,7 +474,7 @@
 },
 "0_2/Beast_walking_9.png":
 {
-	"frame": {"x":960,"y":398,"w":38,"h":37},
+	"frame": {"x":959,"y":398,"w":38,"h":37},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":37},
@@ -602,7 +602,7 @@
 },
 "1_0/Beast_walking_5.png":
 {
-	"frame": {"x":731,"y":709,"w":34,"h":35},
+	"frame": {"x":731,"y":708,"w":34,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":3,"y":1,"w":34,"h":35},
@@ -698,7 +698,7 @@
 },
 "1_1/Beast_attacking_7.png":
 {
-	"frame": {"x":765,"y":631,"w":36,"h":35},
+	"frame": {"x":765,"y":630,"w":36,"h":35},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":1,"w":36,"h":35},
@@ -914,7 +914,7 @@
 },
 "1_2/Beast_walking_4.png":
 {
-	"frame": {"x":786,"y":591,"w":37,"h":36},
+	"frame": {"x":786,"y":590,"w":37,"h":36},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":36},
@@ -938,7 +938,7 @@
 },
 "1_2/Beast_walking_7.png":
 {
-	"frame": {"x":918,"y":398,"w":38,"h":37},
+	"frame": {"x":917,"y":398,"w":38,"h":37},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":37},
@@ -1306,7 +1306,7 @@
 },
 "2_2/Beast_attacking_3.png":
 {
-	"frame": {"x":804,"y":551,"w":37,"h":36},
+	"frame": {"x":804,"y":550,"w":37,"h":36},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":36},
@@ -1410,7 +1410,7 @@
 },
 "2_2/Beast_walking_6.png":
 {
-	"frame": {"x":822,"y":511,"w":37,"h":36},
+	"frame": {"x":822,"y":510,"w":37,"h":36},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":1,"y":1,"w":37,"h":36},
@@ -1418,7 +1418,7 @@
 },
 "2_2/Beast_walking_7.png":
 {
-	"frame": {"x":830,"y":429,"w":38,"h":37},
+	"frame": {"x":830,"y":428,"w":38,"h":37},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":37},
@@ -1426,7 +1426,7 @@
 },
 "2_2/Beast_walking_8.png":
 {
-	"frame": {"x":876,"y":398,"w":38,"h":37},
+	"frame": {"x":875,"y":398,"w":38,"h":37},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":1,"w":38,"h":37},
@@ -1594,10 +1594,10 @@
 },
 "Coin.png":
 {
-	"frame": {"x":830,"y":383,"w":42,"h":42},
+	"frame": {"x":830,"y":383,"w":41,"h":41},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":5,"y":4,"w":42,"h":42},
+	"spriteSourceSize": {"x":5,"y":5,"w":41,"h":41},
 	"sourceSize": {"w":55,"h":55}
 },
 "Crosshair.png":
@@ -1743,6 +1743,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1024,"h":1024},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f5838528adce158c19d964d39bbb9417$"
+	"smartupdate": "$TexturePacker:SmartUpdate:888c3d76b8180f5ccb32f259ac79a48d$"
 }
 }

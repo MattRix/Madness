@@ -53,9 +53,14 @@ public class MInGamePage : MPage
 		MMain.instance.GoToPage(MPageType.TitlePage);
 	}
 	
-	public void ShowWinForPlayer(MPlayer player, List<MPlayer>players)
+	public void ShowWin()
 	{
-		MMain.instance.GoToPage(MPageType.ScorePage);
+		//MMain.instance.GoToPage(MPageType.ScorePage);
+	}
+	
+	public FButton backButton
+	{
+		get {return _backButton;}	
 	}
 
 }

@@ -42,6 +42,8 @@ public class MGame : FMultiTouchableInterface
 	
 	private MStatView[] _statViews;
 	
+	private List<MPlayerAI> _ais = new List<MPlayerAI>(2);
+	
 	public MGame(MInGamePage page)
 	{
 		instance = this;
@@ -51,6 +53,9 @@ public class MGame : FMultiTouchableInterface
 		_players.Add(new MPlayer(0, true,"YOU",MColor.Green));
 		_players.Add(new MPlayer(1, false,"RED",MColor.Red));
 		_players.Add(new MPlayer(2, false,"BLUE",MColor.Blue));
+		
+		_ais.Add (new MPlayerAI(_players[1], _players));
+		_ais.Add (new MPlayerAI(_players[2], _players));
 		
 		_human = _players[0]; 
 		
@@ -185,6 +190,11 @@ public class MGame : FMultiTouchableInterface
 	
 	protected void HandleUpdate ()
 	{
+		for(int a = 0; a<_ais.Count;a++)
+		{
+			_ais[a].Update ();	
+		}
+		
 		for(int p = 0; p<_players.Count; p++)
 		{
 			MPlayer player = _players[p];
@@ -474,7 +484,7 @@ public class MGame : FMultiTouchableInterface
 			velocity.x *= 0.45f;
 			velocity.y *= 0.45f;
 			
-			float moveAmount = Math.Min(1.5f, 20.0f*Mathf.Abs(velocity.x*velocity.y)) + Math.Abs (deltaRotation);
+			float moveAmount = Math.Min(1.5f, 20.0f*Mathf.Abs(velocity.x*velocity.y)) + Math.Abs (deltaRotation)*0.7f;
 			
 			beast.velocity = velocity;
 			
@@ -602,10 +612,12 @@ public class MGame : FMultiTouchableInterface
 			winLabel.scale = 0.8f;
 		
 			Go.to (winLabel,6.0f,new TweenConfig().floatProp("scale",1.0f).onComplete(HandleWinComplete));
+			page.backButton.label.text = "AGAIN?";
 		}
 		else if(player.isHuman)
 		{
 			ShowNote("YOU LOSE!\nPRESS BACK TO TRY AGAIN", 5.0f);
+			page.backButton.label.text = "AGAIN?";
 		}	
 		else 
 		{
@@ -616,7 +628,7 @@ public class MGame : FMultiTouchableInterface
 	
 	private void HandleWinComplete(AbstractTween tween)
 	{
-		page.ShowWinForPlayer(_winningPlayer, _players);
+		page.ShowWin();
 	}
 	
 	public void ShowNote(string message, float duration)
@@ -657,6 +669,8 @@ public class MGame : FMultiTouchableInterface
 	public void CreateBeast(MPlayer player)
 	{
 		if(player.beasts.Count >= player.maxBeasts) return; //TODO: Show a "max beasts limit reached!" indicator on screen
+		
+		player.isDirty = true;
 		
 		MBeast beast = MBeast.New();
 		if(beast.container != _beastContainer) _beastContainer.AddChild(beast);
@@ -733,4 +747,16 @@ public class MGame : FMultiTouchableInterface
 	    } // end while  
 	    return n;  
 	}
+	
+	public List<MPlayer> players
+	{
+		get {return _players;}	
+	}
+	
+	public MPlayer winningPlayer
+	{
+		get {return _winningPlayer;}	
+	}
+	
+	
 }

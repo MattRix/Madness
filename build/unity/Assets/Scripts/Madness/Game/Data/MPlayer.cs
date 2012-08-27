@@ -55,7 +55,7 @@ public class MPlayer
 	
 	public int maxBeasts = 50;
 		
-	public int maxFramesTillBeast = 30;//180;
+	public int maxFramesTillBeast = MConfig.SPAWN_RATE;//180;
 	public int framesTillBeast;
 	
 	public float nextBeastCreationAngle = 0.0f;
@@ -134,18 +134,24 @@ public class MPlayer
 		
 		if(currentStatTotal % leapThreshold == 0 && statTotal != 0)
 		{
-			this.leapLevel++;
-			if(currentStatTotal == statTotal)
+			int newLeapLevel = (int) Mathf.Floor ((float)currentStatTotal/(float)leapThreshold);
+			
+			if(leapLevel != newLeapLevel)
 			{
-				if(isHuman) MGame.instance.ShowNote("MAX EVOLVED!", 3.0f);
-			}
-			else 
-			{
-				if(isHuman) MGame.instance.ShowNote("EVOLUTIONARY LEAP!\n +25% TO ALL MUTATIONS", 5.0f);
+				leapLevel = newLeapLevel;
 				
-				foreach(MPlayerStat eachStat in stats)
+				if(currentStatTotal == statTotal)
 				{
-					eachStat.Leap();
+					if(isHuman) MGame.instance.ShowNote("MAX EVOLVED!", 3.0f);
+				}
+				else 
+				{
+					if(isHuman) MGame.instance.ShowNote("EVOLUTIONARY LEAP!\n +25% TO ALL MUTATIONS", 5.0f);
+					
+					foreach(MPlayerStat eachStat in stats)
+					{
+						eachStat.Leap();
+					}
 				}
 			}
 		}
