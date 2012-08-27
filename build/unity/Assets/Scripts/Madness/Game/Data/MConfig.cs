@@ -7,6 +7,6 @@ public class MConfig
 	public const float TOWER_RADIUS = 35.0f;
 	
 	public const int DNA_PER_KILL = 1;
-	public const int SPAWN_RATE = 120;//160;
+	public const int SPAWN_RATE = 80;
 }
 
