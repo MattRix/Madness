@@ -14,6 +14,7 @@ public class MPlayerAI
 	public MPlayerAI (MPlayer player, List<MPlayer>players)
 	{
 		this.player = player;
+		
 		foreach(MPlayer otherPlayer in players)
 		{
 			if(otherPlayer != player)
@@ -34,14 +35,12 @@ public class MPlayerAI
 		
 		if(RXRandom.Float() < 1.0f/500.0f) //only buy upgrades sometimes
 		{
-			foreach(MPlayerStat stat in player.stats)
-			{
-				if(stat.CanBuy())
-				{
-					stat.Buy();	
-					Debug.Log ("BOUGHT A STAT!");
-				}
-			}
+			
+			if(player.statAttack.CanBuy()) player.statAttack.Buy();
+			if(player.statDefence.CanBuy()) player.statDefence.Buy();
+			if(player.statHealth.CanBuy()) player.statHealth.Buy();
+			if(player.statSpeed.CanBuy()) player.statSpeed.Buy();
+			
 		}
 		
 		
