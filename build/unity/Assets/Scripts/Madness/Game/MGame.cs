@@ -222,6 +222,9 @@ public class MGame : FMultiTouchableInterface
 			MPlayer beastPlayer = beast.player;
 			Vector2 velocity = beast.velocity;
 			
+			
+			if(beastPlayer.areStatsDirty) beast.UpdateStats();
+			
 			float deltaRotation = 0.0f;
 			
 			for(int c = 0; c<_beastCount; c++)
@@ -536,6 +539,7 @@ public class MGame : FMultiTouchableInterface
 		for(int p = 0; p<_players.Count; p++)
 		{
 			MPlayer player = _players[p];
+			player.areStatsDirty = false;
 			if(player.isDirty)
 			{
 				player.isDirty = false;

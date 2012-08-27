@@ -82,6 +82,7 @@ public class MPlayer
 	public int totalKills = 0;
 	
 	public bool isDirty = false;
+	public bool areStatsDirty = false;
 	
 	public MPlayer(int index, bool isHuman, string name, MColor color)
 	{
@@ -150,5 +151,6 @@ public class MPlayer
 		}
 		
 		isDirty = true;
+		areStatsDirty = true;
 	}
 }

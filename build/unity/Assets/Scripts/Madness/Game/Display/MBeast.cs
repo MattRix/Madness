@@ -161,10 +161,7 @@ public class MBeast : FContainer
 			beastType = MBeastType.C;
 		}
 		
-		defence = 1.0f + player.statDefence.amount;
-		offence = 1.0f + player.statAttack.amount;
-		health = 15.0f + player.statHealth.amount*10;
-		speed = 1.7f + 9.0f*(player.statSpeed.amount/player.statSpeed.max);
+		UpdateStats();
 		
 		_advanceCount = 0;
 		
@@ -175,6 +172,14 @@ public class MBeast : FContainer
 		this.scale = 0.0f;
 		
 		this.isEnabled = true;
+	}
+	
+	public void UpdateStats()
+	{
+		defence = 1.0f + (float)player.statDefence.amount;
+		offence = 1.0f + (float)player.statAttack.amount;
+		health = 15.0f + (float)player.statHealth.amount*10.0f;
+		speed = 1.7f + 9.0f*((float)player.statSpeed.amount/(float)player.statSpeed.max);
 	}
 	
 	public void Destroy()
