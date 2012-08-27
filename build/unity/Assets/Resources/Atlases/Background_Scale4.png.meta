@@ -30,4 +30,8 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   textureType: -1
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: iPhone
+    maxTextureSize: 4096
+    textureFormat: -3
+    compressionQuality: 50

@@ -1,0 +1,6 @@
+
+build/unity/unity-csharp.sln
+
+*.sln
+
+build/unity/unity.sln
