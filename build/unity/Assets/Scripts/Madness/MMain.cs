@@ -36,13 +36,15 @@ public class MMain : MonoBehaviour
 		#endif
 		
 		fparams.origin = new Vector2(0.5f,0.5f);
+
+		Futile.shouldRemoveAtlasElementFileExtensions = false;
 		
 		Futile.instance.Init (fparams);
 		 
 		Futile.atlasManager.LoadAtlas("Atlases/Game");
 		Futile.atlasManager.LoadAtlas("Atlases/Background");
 		
-		Futile.atlasManager.LoadFont("Cubano","Cubano"+Futile.resourceSuffix+".png", "Atlases/Cubano"+Futile.resourceSuffix);
+		Futile.atlasManager.LoadFont("Cubano","Cubano"+Futile.resourceSuffix+".png", "Atlases/Cubano"+Futile.resourceSuffix,1,2);
 		
 		MBeast.Init(); //sets up the MBeast animation elements
 		MExplosion.Init(); //sets up the explosion elements

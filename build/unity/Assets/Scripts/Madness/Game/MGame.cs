@@ -267,7 +267,7 @@ public class MGame : FMultiTouchableInterface
 							
 							//face the enemy you're attacking!
 							float faceEnemyRotation = -Mathf.Atan2(dy, dx) * RXMath.RTOD + 90.0f;
-							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
+							deltaRotation += RXMath.GetDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
 						} 
 						
 						//push away from other beast
@@ -288,10 +288,10 @@ public class MGame : FMultiTouchableInterface
 								beast.isAttackingTower = false;
 								beast.attackTarget = otherBeast;
 							}
-							
+
 							//face the enemy you're attacking!
 							float faceEnemyRotation = -Mathf.Atan2(dy, dx) * RXMath.RTOD + 90.0f;
-							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
+							deltaRotation += RXMath.GetDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
 						}
 					}
 					else 
@@ -341,7 +341,7 @@ public class MGame : FMultiTouchableInterface
 							
 							//face the tower you're attacking!
 							float faceEnemyRotation = -Mathf.Atan2(dy, dx) * RXMath.RTOD + 90.0f;
-							deltaRotation += RXMath.getDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
+							deltaRotation += RXMath.GetDegreeDelta(beast.rotation,faceEnemyRotation) * 0.3f;
 						}
 					}
 					else 
@@ -477,7 +477,7 @@ public class MGame : FMultiTouchableInterface
 			beast.y += velocity.y * 0.5f;
 			
 			float goalRotation = -Mathf.Atan2(velocity.y, velocity.x) * RXMath.RTOD + 90.0f;
-			deltaRotation += RXMath.getDegreeDelta(beast.rotation,goalRotation) * 0.06f;
+			deltaRotation += RXMath.GetDegreeDelta(beast.rotation,goalRotation) * 0.06f;
 			
 			beast.rotation += Math.Max(-3.0f, Math.Min (3.0f, deltaRotation*0.9f));
 			
@@ -496,7 +496,7 @@ public class MGame : FMultiTouchableInterface
 				beast.blinkFrame--;
 				if(beast.blinkFrame == 0) //put it back to normal
 				{
-					beast.sprite.shader = FShader.Normal;
+					beast.sprite.shader = FShader.Basic;
 					beast.sprite.color = colorWhite;
 					_beastContainer.AddChild(beast);
 				}
@@ -708,7 +708,7 @@ public class MGame : FMultiTouchableInterface
 		//put it back in the right container
 		if(beastToRemove.container == _beastContainerSpecial)
 		{
-			beastToRemove.sprite.shader = FShader.Normal;
+			beastToRemove.sprite.shader = FShader.Basic;
 			_beastContainerSpecial.RemoveChild(beastToRemove);
 		}
 		
